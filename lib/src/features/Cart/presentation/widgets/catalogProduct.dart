@@ -44,40 +44,43 @@ class CataProductCard extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
     bool isLarge = true;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CircleAvatar(
-            radius: 35,
-            backgroundImage: NetworkImage(Product.products[index].imageURL),
-          ),
-          addHorizontal(20),
-          Expanded(
-            child: Text(
-              Product.products[index].name,
-              overflow: TextOverflow.ellipsis,
-              style: themeData.textTheme.headline6!.copyWith(
-                letterSpacing: 0.45,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: black,
+    return Container(
+      decoration: const BoxDecoration(color: black),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CircleAvatar(
+              radius: 35,
+              backgroundImage: NetworkImage(Product.products[index].imageURL),
+            ),
+            addHorizontal(20),
+            Expanded(
+              child: Text(
+                Product.products[index].name,
+                overflow: TextOverflow.ellipsis,
+                style: themeData.textTheme.headline6!.copyWith(
+                  letterSpacing: 0.45,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: white,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Text(
-              "Delivery: GH₵ ${Product.products[index].dprice}",
+            Expanded(
+              child: Text(
+                "Delivery: GH₵ ${Product.products[index].dprice}" + " or more!",
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              controller.addProduct(Product.products[index]);
-            },
-            icon: const Icon(Icons.add_circle),
-          ),
-        ],
+            IconButton(
+              onPressed: () {
+                controller.addProduct(Product.products[index]);
+              },
+              icon: const Icon(Icons.add_circle),
+            ),
+          ],
+        ),
       ),
     );
   }

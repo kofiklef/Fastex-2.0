@@ -75,14 +75,14 @@ class CartProductCard extends StatelessWidget {
             onPressed: () {
               controller.removeProduct(product);
             },
-            icon: const Icon(Icons.remove_circle),
+            icon: const Icon(Icons.remove_circle, color: black),
           ),
-          Text('$quantity'),
+          Text('$quantity', style: const TextStyle(color: black)),
           IconButton(
             onPressed: () {
               controller.addProduct(product);
             },
-            icon: const Icon(Icons.add_circle),
+            icon: const Icon(Icons.add_circle, color: black),
           ),
         ],
       ),

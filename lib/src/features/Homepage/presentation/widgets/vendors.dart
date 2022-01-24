@@ -16,7 +16,7 @@ class _VendorsState extends State<Vendors> {
       child: ListView.builder(
         itemCount: vendors.length,
         itemBuilder: (BuildContext context, int index) {
-          return Card();
+          return const Card();
         },
       ),
     );

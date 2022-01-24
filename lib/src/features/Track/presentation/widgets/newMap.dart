@@ -80,17 +80,17 @@ class TrackerState extends State<Tracker> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
                       children: [
-                        // TextFormField(
-                        //   controller: _originController,
-                        //   textCapitalization: TextCapitalization.words,
-                        //   decoration: InputDecoration(
-                        //     hintText: 'ORIGIN',
-                        //     fillColor: Colors.deepOrangeAccent,
-                        //   ),
-                        //   onChanged: (value) {
-                        //     print(value);
-                        //   },
-                        // ),
+                        TextFormField(
+                          controller: _originController,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: const InputDecoration(
+                            hintText: 'ORIGIN',
+                            fillColor: Colors.deepOrangeAccent,
+                          ),
+                          onChanged: (value) {
+                            print(value);
+                          },
+                        ),
                         addVertical(10),
                         TextFormField(
                           controller: _destinationController,

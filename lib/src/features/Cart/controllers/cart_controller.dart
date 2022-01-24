@@ -34,7 +34,7 @@ class CartController extends GetxController {
       "Product removed from cart",
       "Your ${product.name} has been removed from the cart!",
       snackPosition: SnackPosition.TOP,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1000),
     );
   }
 
@@ -44,15 +44,9 @@ class CartController extends GetxController {
       .map((product) => product.key.price * product.value)
       .toList();
 
-  get total {
-    if (_products[products] != 0) {
-      _products.entries
-          .map((product) => (product.key.dprice) * product.value)
-          .toList()
-          .reduce((value, element) => value + element)
-          .toStringAsFixed(2);
-    } else {
-      return "0.00";
-    }
-  }
+  get total => _products.entries
+      .map((product) => (product.key.dprice) * product.value)
+      .toList()
+      .reduce((value, element) => value + element)
+      .toStringAsFixed(2);
 }

@@ -22,7 +22,9 @@ class CatalogScreen extends StatelessWidget {
               const CatalogProducts(),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: ocean),
-                onPressed: () => Get.to(() => const CartScreen()),
+                onPressed: () => Get.to(
+                  () => const CartScreen(),
+                ),
                 child: const Text('Go To Cart'),
               ),
             ],

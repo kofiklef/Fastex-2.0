@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:fastex/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/cartProducts.dart';
@@ -17,6 +18,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: white,
         appBar: AppBar(
           title: const Text('Your Cart'),
         ),

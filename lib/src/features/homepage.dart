@@ -1,8 +1,11 @@
+import 'package:fastex/src/features/Cart/presentation/pages/CatalogScreen.dart';
+import 'package:fastex/src/features/Cart/presentation/pages/cartScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../core/constants/constants.dart';
 import 'Calls/presentation/pages/body.dart';
 // import 'Homepage/presentation/pages/homeBody.dart';
+import 'Cart/presentation/widgets/catalogProduct.dart';
 import 'Homepage/presentation/pages/homeBody.dart';
 import 'Track/presentation/widgets/newMap.dart';
 
@@ -33,7 +36,12 @@ class _HomepageState extends State<Homepage> {
           ),
           title: Text(
             "FastEx",
-            style: themeData.textTheme.headline2,
+            style: themeData.textTheme.headline2!.copyWith(
+              fontSize: 32,
+              fontWeight: FontWeight.w600,
+              color: white,
+              letterSpacing: 1.25,
+            ),
           ),
           elevation: 0.0,
           actions: <Widget>[
@@ -54,12 +62,14 @@ class _HomepageState extends State<Homepage> {
         ),
         body: const TabBarView(
           children: [
-            // CatalogProducts(),
-            // CartProducts(),
-            Body(),
+            CatalogProducts(),
             callBody(),
             Tracker(),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen())),
+          child: const Icon(Icons.shopping_cart_outlined),
         ),
       ),
     );
