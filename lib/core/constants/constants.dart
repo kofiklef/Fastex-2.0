@@ -9,6 +9,7 @@ const transparent = Colors.transparent;
 
 const ocean = Color.fromRGBO(0, 157, 196, 0.75);
 const lightB = Color.fromRGBO(25, 182, 221, 0.95);
+const dBlue = Colors.blue;
 
 const TextTheme bigScreen = TextTheme(
   headline1: TextStyle(

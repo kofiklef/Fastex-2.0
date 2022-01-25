@@ -1,17 +1,16 @@
+import 'package:fastex/core/services/authService.dart';
+import 'package:fastex/core/shared/human.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'src/splashScreen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    const GetMaterialApp(
-      home: Fastex(),
-      debugShowCheckedModeBanner: false,
-    ), 
-  );
+  await Firebase.initializeApp();
+  runApp(const Fastex());
 }
 
 class Fastex extends StatelessWidget {
@@ -21,11 +20,15 @@ class Fastex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // double screenWidth = window.physicalSize.width;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: FlexThemeData.light(scheme: FlexScheme.blueWhale),
-      darkTheme: FlexThemeData.dark(scheme: FlexScheme.blueWhale),
-      home: const SplashScreen(),
+    return StreamProvider<Human?>.value(
+      initialData: Human(uid: "uid"),
+      value: AuthService().user,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: FlexThemeData.light(scheme: FlexScheme.blueWhale),
+        darkTheme: FlexThemeData.dark(scheme: FlexScheme.blueWhale),
+        home: const SplashScreen(),
+      ),
     );
   }
 }

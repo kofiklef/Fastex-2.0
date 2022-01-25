@@ -1,8 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:fastex/core/constants/constants.dart';
-// import 'package:fastex/core/shared/authenticate.dart';
-import 'package:fastex/src/features/Authentication/presentation/pages/login.dart';
+import 'package:fastex/core/services/authService.dart';
 import 'package:fastex/src/features/Calls/presentation/pages/callScreen.dart';
 import 'package:fastex/src/features/Track/presentation/pages/trackDelivery.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   MenuItem currentItem = MenuItems.home;
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,11 @@ class _LandingPageState extends State<LandingPage> {
   Widget getPages() {
     switch (currentItem) {
       case MenuItems.logout:
-        return const Login();
+        return ElevatedButton(
+          onPressed: () => _auth.logout(),
+          child: const Text("Logout"),
+        );
+
       case MenuItems.profile:
         return const Homepage();
       case MenuItems.calls:

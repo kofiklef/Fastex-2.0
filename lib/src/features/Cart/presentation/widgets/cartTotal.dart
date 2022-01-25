@@ -1,8 +1,7 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_local_variable
 
 import 'package:fastex/core/constants/widgetFunction.dart';
 import 'package:fastex/src/features/Cart/controllers/cart_controller.dart';
-import 'package:fastex/src/features/Cart/presentation/widgets/payment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +23,7 @@ class _CartTotalState extends State<CartTotal> {
 
     return Obx(
       () => Container(
+        height: MediaQuery.of(context).size.height * 0.5,
         decoration: const BoxDecoration(
           color: bGrey,
           borderRadius: BorderRadius.only(
@@ -58,14 +58,7 @@ class _CartTotalState extends State<CartTotal> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Payment(),
-                      ),
-                    );
-                  },
+                  onPressed: _makePayment(context),
                   child: const Text("Proceed To Pay"),
                 ),
               ],
@@ -74,5 +67,36 @@ class _CartTotalState extends State<CartTotal> {
         ),
       ),
     );
+  }
+
+  _makePayment(BuildContext context) async {
+    try {
+      final flutterwave = Flutterwave.forUIPayment(
+        context: this.context,
+        encryptionKey: "FLWSECK_TESTa2bd3c33afd6",
+        publicKey: "FLWPUBK_TEST-84e94668f8589cfb05b6f10a7a1e2c27-X",
+        currency: FlutterwaveCurrency.GHS,
+        amount: "${controller.total}",
+        email: "valid@email.com",
+        fullName: "Valid Full Name",
+        txRef: DateTime.now(),
+        isDebugMode: true,
+        phoneNumber: "0123456789",
+        acceptCardPayment: true,
+        acceptUSSDPayment: false,
+        acceptAccountPayment: false,
+        acceptFrancophoneMobileMoney: false,
+        acceptGhanaPayment: true,
+        acceptMpesaPayment: false,
+        acceptRwandaMoneyPayment: false,
+        acceptUgandaPayment: false,
+        acceptZambiaPayment: false,
+      );
+
+      final ChargeResponse response =
+          await flutterwave.initializeForUiPayments();
+    } catch (error) {
+      handleError(error);
+    }
   }
 }

@@ -1,12 +1,9 @@
-import 'package:fastex/src/features/Cart/presentation/pages/CatalogScreen.dart';
 import 'package:fastex/src/features/Cart/presentation/pages/cartScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../core/constants/constants.dart';
 import 'Calls/presentation/pages/body.dart';
-// import 'Homepage/presentation/pages/homeBody.dart';
 import 'Cart/presentation/widgets/catalogProduct.dart';
-import 'Homepage/presentation/pages/homeBody.dart';
 import 'Track/presentation/widgets/newMap.dart';
 
 class Homepage extends StatefulWidget {

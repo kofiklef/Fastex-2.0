@@ -23,7 +23,7 @@ class _PaymentState extends State<Payment> {
   Container cardWidget(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 3.5,
+      height: MediaQuery.of(context).size.height / 3.75,
       margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: Card(
         color: Colors.lightBlueAccent,

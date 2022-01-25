@@ -11,12 +11,10 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final client = Provider.of<Human>(context);
+    final client = Provider.of<Human?>(context);
     if (client == null) {
       return const Authenticate();
-      //Homepage();
     } else {
-      print(client);
       return const LandingPage();
     }
   }

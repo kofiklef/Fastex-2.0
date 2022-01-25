@@ -1,12 +1,15 @@
 // ignore_for_file: file_names, avoid_print
 
+import 'package:crypt/crypt.dart';
 import 'package:fastex/core/shared/human.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   final String? uid;
   AuthService({this.uid});
 
@@ -18,22 +21,27 @@ class AuthService {
     return _auth.authStateChanges().map(_userFromFirebase);
   }
 
-   Future signup(
+  Future<bool> checkPassword(String email, String password) async {
+    String? storedHash = await storage.read(key: email);
+    return Future.value(Crypt(storedHash!).match(password));
+  }
+
+  Future signup(
     String email,
     String password,
   ) async {
     try {
+      String hashedPassword = Crypt.sha256(password).toString();
       UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      User? student =  _auth.currentUser;
+          email: email, password: hashedPassword);
+      User? student = _auth.currentUser;
       User? person = result.user;
-
+      Map<String, String> userMap = {
+        'email': email,
+        'hashedPassword': password,
+      };
       // create Database for user on Signup
-      await Database(uid: student!.uid).createEndUser(
-        "Name",
-        email,
-        '',
-      );
+      await Database(uid: student!.uid).uploadUserInfo(userMap);
 
       //! Verification
       if (!student.emailVerified && student != null) {
