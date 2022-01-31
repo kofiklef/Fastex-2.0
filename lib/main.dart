@@ -16,10 +16,8 @@ void main() async {
 class Fastex extends StatelessWidget {
   const Fastex({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = window.physicalSize.width;
     return StreamProvider<Human?>.value(
       initialData: Human(uid: "uid"),
       value: AuthService().user,

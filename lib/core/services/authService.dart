@@ -3,6 +3,7 @@
 import 'package:crypt/crypt.dart';
 import 'package:fastex/core/shared/human.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'database.dart';
@@ -64,10 +65,8 @@ class AuthService {
     }
   }
 
-  Future login(
-    String email,
-    String password,
-  ) async {
+  Future login(String email, String password,
+      {required BuildContext context}) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -81,9 +80,11 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         print("No user found! \nTry creating a New Account!");
+        // Navigator.pop(context);
       } else if (e.code == "wrong-password") {
         print(
             'Invalid password provided... \nPlease try again with valid credentials');
+        // Navigator.pop(context);
       } else {
         print('An unknown error has occurred!\n Please try again later!');
       }

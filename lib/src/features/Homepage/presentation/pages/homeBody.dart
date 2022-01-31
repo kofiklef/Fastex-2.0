@@ -1,10 +1,9 @@
 // ignore_for_file: file_names
 
-
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
+import 'package:fastex/src/features/Cart/models/productModel.dart';
 import 'package:fastex/src/features/Cart/presentation/pages/CatalogScreen.dart';
-// import 'package:fastex/src/features/Cart/presentation/pages/cartScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +15,9 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  late final int index;
   Widget selectedItem = Container();
+  get image => Product.products[index].imageURL;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class _BodyState extends State<Body> {
             fit: StackFit.expand,
             children: const [
               Image(
-                image: AssetImage("lib/src/assets/images/logo.jpg"),
+                image: AssetImage("assets/images/logo.jpg"),
                 fit: BoxFit.fitHeight,
                 color: Colors.black87,
                 colorBlendMode: BlendMode.darken,
@@ -39,7 +40,7 @@ class _BodyState extends State<Body> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => const CatalogScreen()),
+        onPressed: () => Get.to(() => CatalogScreen(image: image)),
         child: const Icon(
           Icons.shopping_cart_outlined,
           color: white,

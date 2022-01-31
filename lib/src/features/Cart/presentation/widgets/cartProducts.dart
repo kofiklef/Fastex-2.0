@@ -9,7 +9,8 @@ import 'package:get/get.dart';
 
 class CartProducts extends StatelessWidget {
   final CartController controller = Get.find();
-  CartProducts({Key? key}) : super(key: key);
+  CartProducts({Key? key, required this.image}) : super(key: key);
+  final String image;
 
   @override
   Widget build(BuildContext context) {

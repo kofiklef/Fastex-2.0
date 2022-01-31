@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CatalogScreen extends StatelessWidget {
-  const CatalogScreen({Key? key}) : super(key: key);
-
+  const CatalogScreen({Key? key, required this.image}) : super(key: key);
+  final String image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +23,9 @@ class CatalogScreen extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: ocean),
                 onPressed: () => Get.to(
-                  () => const CartScreen(),
+                  () => CartScreen(
+                    image: image,
+                  ),
                 ),
                 child: const Text('Go To Cart'),
               ),

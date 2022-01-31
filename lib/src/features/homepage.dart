@@ -7,15 +7,16 @@ import 'Cart/presentation/widgets/catalogProduct.dart';
 import 'Track/presentation/widgets/newMap.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
-
+  Homepage({Key? key, this.image}) : super(key: key);
+   String? image;
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
+  // late final int index;
   Widget selectedItem = Container();
-
+  // String get image => Product.products[index].imageURL;
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -65,7 +66,12 @@ class _HomepageState extends State<Homepage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen())),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CartScreen(image: widget.image!),
+            ),
+          ),
           child: const Icon(Icons.shopping_cart_outlined),
         ),
       ),

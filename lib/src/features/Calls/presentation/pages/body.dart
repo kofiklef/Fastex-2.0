@@ -14,7 +14,7 @@ class callBody extends StatelessWidget {
           fit: StackFit.expand,
           children: const [
             Image(
-              image: AssetImage("lib/src/assets/images/logo.jpg"),
+              image: AssetImage("assets/images/logo.jpg"),
               fit: BoxFit.fitHeight,
               color: Colors.black87,
               colorBlendMode: BlendMode.darken,

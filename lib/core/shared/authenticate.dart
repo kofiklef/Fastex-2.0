@@ -20,7 +20,7 @@ class _AuthenticateState extends State<Authenticate> {
     if (showLogin) {
       return Register(toggleView: toggleView);
     } else {
-      return const Login();
+      return Login(toggleView: toggleView);
     }
   }
 }

@@ -54,13 +54,13 @@ class _LandingPageState extends State<LandingPage> {
         );
 
       case MenuItems.profile:
-        return const Homepage();
+        return Homepage();
       case MenuItems.calls:
         return const callScreen();
       case MenuItems.tracker:
         return const TrackDelivery();
       default:
-        return const Homepage();
+        return Homepage();
     }
   }
 }

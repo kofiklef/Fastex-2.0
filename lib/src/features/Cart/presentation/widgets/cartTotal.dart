@@ -1,13 +1,19 @@
-// ignore_for_file: file_names, unused_local_variable
+// ignore_for_file: file_names, unused_local_variable, unused_field
+
+import 'dart:io';
+import 'dart:math';
 
 import 'package:fastex/core/constants/widgetFunction.dart';
 import 'package:fastex/src/features/Cart/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterwave/flutterwave.dart';
+import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/constants/constants.dart';
 
 class CartTotal extends StatefulWidget {
+  // final String email;
   const CartTotal({Key? key}) : super(key: key);
 
   @override
@@ -15,6 +21,33 @@ class CartTotal extends StatefulWidget {
 }
 
 class _CartTotalState extends State<CartTotal> {
+  String? _ref;
+
+  void setRef() {
+    Random rand = Random();
+    int number = rand.nextInt(2000);
+    if (Platform.isAndroid) {
+      setState(() {
+        _ref = "AndroidRef_number";
+      });
+    } else {
+      setState(() {
+        _ref = "iOSRef_$number";
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setRef();
+  }
+
+  // void dispose() {
+  //   setRef();
+  //   super.dispose();
+  // }
+
   final bool notZero = true;
   @override
   Widget build(BuildContext context) {
@@ -23,7 +56,7 @@ class _CartTotalState extends State<CartTotal> {
 
     return Obx(
       () => Container(
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: MediaQuery.of(context).size.height * 3.5,
         decoration: const BoxDecoration(
           color: bGrey,
           borderRadius: BorderRadius.only(
@@ -58,7 +91,8 @@ class _CartTotalState extends State<CartTotal> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: _makePayment(context),
+                  onPressed: () =>
+                      _makePayment(context, controller.total),
                   child: const Text("Proceed To Pay"),
                 ),
               ],
@@ -69,22 +103,23 @@ class _CartTotalState extends State<CartTotal> {
     );
   }
 
-  _makePayment(BuildContext context) async {
+  void _makePayment(BuildContext context, String amount) async {
     try {
+      final CartController controller = Get.find();
       final flutterwave = Flutterwave.forUIPayment(
         context: this.context,
         encryptionKey: "FLWSECK_TESTa2bd3c33afd6",
         publicKey: "FLWPUBK_TEST-84e94668f8589cfb05b6f10a7a1e2c27-X",
-        currency: FlutterwaveCurrency.GHS,
+        currency: "GH₵",
         amount: "${controller.total}",
-        email: "valid@email.com",
+        email: "",
         fullName: "Valid Full Name",
-        txRef: DateTime.now(),
+        txRef: "$_ref",
         isDebugMode: true,
         phoneNumber: "0123456789",
         acceptCardPayment: true,
         acceptUSSDPayment: false,
-        acceptAccountPayment: false,
+        acceptAccountPayment: true,
         acceptFrancophoneMobileMoney: false,
         acceptGhanaPayment: true,
         acceptMpesaPayment: false,
@@ -96,7 +131,7 @@ class _CartTotalState extends State<CartTotal> {
       final ChargeResponse response =
           await flutterwave.initializeForUiPayments();
     } catch (error) {
-      handleError(error);
+      print(error);
     }
   }
 }

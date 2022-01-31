@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
       decoration: const BoxDecoration(color: white),
       child: Center(
         child: Image.asset(
-          "lib/src/assets/images/logo.jpg",
+          "assets/images/logo.jpg",
           width: MediaQuery.of(context).size.width,
           // scale: 2.0,
         ),
