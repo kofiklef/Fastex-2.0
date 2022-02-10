@@ -1,10 +1,11 @@
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/shared/wrapper.dart';
+// import 'package:fastex/src/features/landingPage.dart';
 import 'package:flutter/material.dart';
 // ignore_for_file: file_names
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({Key key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

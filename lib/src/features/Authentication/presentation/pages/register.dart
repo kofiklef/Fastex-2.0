@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:crypt/crypt.dart';
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
 import 'package:fastex/core/services/database.dart';
@@ -11,7 +12,7 @@ import '../../../../../core/services/authService.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
-  const Register({Key? key, required this.toggleView}) : super(key: key);
+  const Register({Key key, @required this.toggleView}) : super(key: key);
 
   get tokenId => AuthService();
 
@@ -67,7 +68,7 @@ class _RegisterState extends State<Register> {
                   color: white,
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w700,
-                  //decoration: new InputDecoration( screenWidth < 500 ? TEXT_THEME_SMALL : TEXT_THEME_DEFAULT),
+                  //decoration: new InputDecoration( screenWidth < 500  TEXT_THEME_SMALL : TEXT_THEME_DEFAULT),
                 ),
               ),
               onPressed: () {
@@ -107,7 +108,7 @@ class _RegisterState extends State<Register> {
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    "Welcome To\n FastEx Deliveries!",
+                                    "Welcome To\n FastEx Deliveries",
                                     style: GoogleFonts.mcLaren(
                                       textStyle: const TextStyle(
                                         fontSize: 28,
@@ -127,18 +128,21 @@ class _RegisterState extends State<Register> {
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
                                         buildTextFormField(
+                                            const Icon(Icons.person),
                                             "Enter a valid username",
                                             "Username",
                                             false,
                                             true),
                                         addVertical(10),
                                         buildTextFormField(
+                                            const Icon(Icons.email),
                                             "Enter a valid email",
                                             "Email",
                                             false,
                                             false),
                                         addVertical(10),
                                         buildTextFormField(
+                                            const Icon(Icons.lock),
                                             "Enter your password",
                                             "Password",
                                             true,
@@ -190,23 +194,29 @@ class _RegisterState extends State<Register> {
                                                 ),
                                               ),
                                               onPressed: () async {
-                                                if (_formkey.currentState!
+                                                if (_formkey.currentState
                                                     .validate()) {
                                                   setState(
                                                       () => loading = true);
                                                   dynamic result =
                                                       await _auth.signup(
-                                                          emailController.text,
+                                                          emailController.text
+                                                              .trim(),
                                                           passwordController
-                                                              .text);
+                                                              .text
+                                                              .trim());
+
                                                   Map<String, String> userMap =
                                                       {
                                                     'userName':
-                                                        userNameController.text,
-                                                    'email':
-                                                        emailController.text,
+                                                        userNameController.text
+                                                            .trim(),
+                                                    'email': emailController
+                                                        .text
+                                                        .trim(),
                                                     'password':
-                                                        passwordController.text,
+                                                        passwordController.text
+                                                            .trim()
                                                   };
 
                                                   _database
@@ -251,49 +261,51 @@ class _RegisterState extends State<Register> {
   }
 
   TextFormField buildTextFormField(
-      String hint, String label, bool pwd, bool userName) {
+      Widget icon, String hint, String label, bool pwd, bool userName) {
     // ignore: unnecessary_new
     return TextFormField(
-        validator: (val) => val!.isEmpty
-            ? 'Create an account using a registered email address'
-            : null,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: const TextStyle(
-            color: white,
-            fontWeight: FontWeight.bold,
-          ),
-          labelText: label,
-          labelStyle: const TextStyle(
-            color: white,
-            fontWeight: FontWeight.bold,
-          ),
-          border: InputBorder.none,
-          prefixIcon: const Icon(Icons.mail_outline_rounded),
-          fillColor: ocean,
-          filled: true,
-          focusColor: dBlue,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: const BorderSide(color: dBlue),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: const BorderSide(color: dBlue),
-          ),
+      validator: (val) => val.isEmpty
+          ? 'Create an account using a registered email address'
+          : null,
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: const TextStyle(
+          color: white,
+          fontWeight: FontWeight.bold,
         ),
-        keyboardType: pwd ? TextInputType.text : TextInputType.emailAddress,
-        autofillHints: const [AutofillHints.email],
-        onChanged: pwd
-            ? (val) {
-                passwordController.text = val;
-              }
-            : userName
-                ? (value) {
-                    userNameController.text = value;
-                  }
-                : (val) {
-                    emailController.text = val;
-                  });
+        labelText: label,
+        labelStyle: const TextStyle(
+          color: white,
+          fontWeight: FontWeight.bold,
+        ),
+        border: InputBorder.none,
+        prefixIcon: icon,
+        fillColor: ocean,
+        filled: true,
+        focusColor: dBlue,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: const BorderSide(color: dBlue),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: const BorderSide(color: dBlue),
+        ),
+      ),
+      obscureText: pwd ? true : false,
+      keyboardType: pwd ? TextInputType.text : TextInputType.emailAddress,
+      autofillHints: const [AutofillHints.email],
+      onChanged: pwd
+          ? (val) {
+              passwordController.text = val;
+            }
+          : userName
+              ? (value) {
+                  userNameController.text = value;
+                }
+              : (val) {
+                  emailController.text = val;
+                },
+    );
   }
 }

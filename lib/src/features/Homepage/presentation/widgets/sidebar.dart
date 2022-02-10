@@ -10,7 +10,7 @@ class MenuItems {
   static const profile = MenuItem("Profile", Icons.person_outline_outlined);
   static const logout = MenuItem("Logout", Icons.exit_to_app_outlined);
   static const calls = MenuItem("Call Us", Icons.call);
-  static const help = MenuItem("Help", Icons.help);
+  static const search = MenuItem("Search", Icons.search);
   static const home = MenuItem("Home", Icons.home_filled);
 
   static const all = <MenuItem>[
@@ -19,7 +19,7 @@ class MenuItems {
     tracker,
     home,
     // notify,
-    help,
+    search,
     logout,
   ];
 }
@@ -28,9 +28,9 @@ class Menupage extends StatelessWidget {
   final MenuItem currentItem;
   final ValueChanged<MenuItem> onSelectedItem;
   const Menupage({
-    Key? key,
-    required this.currentItem,
-    required this.onSelectedItem,
+    Key key,
+    @required this.currentItem,
+    @required this.onSelectedItem,
   }) : super(key: key);
 
   @override
@@ -64,7 +64,7 @@ class Menupage extends StatelessWidget {
               leading: Icon(item.icon, color: Colors.black),
               title: Text(
                 item.title,
-                style: themeData.textTheme.headline5!.copyWith(
+                style: themeData.textTheme.headline5.copyWith(
                   color: Colors.black54,
                   letterSpacing: 0.25,
                   fontWeight: FontWeight.w600,

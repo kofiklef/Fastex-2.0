@@ -9,7 +9,7 @@ import '../../../../../core/constants/widgetFunction.dart';
 import '../../domain/repositories/locationServices.dart';
 
 class Tracker extends StatefulWidget {
-  const Tracker({Key? key}) : super(key: key);
+  const Tracker({Key key}) : super(key: key);
 
   @override
   State<Tracker> createState() => TrackerState();
@@ -68,7 +68,7 @@ class TrackerState extends State<Tracker> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Container(
         color: Colors.black54,
         child: Column(

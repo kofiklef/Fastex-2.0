@@ -6,7 +6,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../../../../core/constants/constants.dart';
 
 class TrackDelivery extends StatefulWidget {
-  const TrackDelivery({Key? key}) : super(key: key);
+  const TrackDelivery({Key key}) : super(key: key);
 
   @override
   _TrackDeliveryState createState() => _TrackDeliveryState();
@@ -24,12 +24,12 @@ class _TrackDeliveryState extends State<TrackDelivery> {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           color: black,
-          onPressed: () => ZoomDrawer.of(context)!.toggle(),
+          onPressed: () => ZoomDrawer.of(context).toggle(),
           iconSize: 30.0,
         ),
         title: Text(
           "Track Delivery",
-          style: themeData.textTheme.headline1!.copyWith(color: black),
+          style: themeData.textTheme.headline1.copyWith(color: black),
         ),
       ),
       body: const Tracker(),

@@ -5,22 +5,27 @@ import 'package:fastex/core/constants/widgetFunction.dart';
 import 'package:flutter/material.dart';
 
 class MainFood extends StatefulWidget {
-  const MainFood({
-    Key? key,
-    required this.image,
-    required this.name,
-    required this.description,
+  MainFood({
+    Key key,
+    @required this.image,
+    @required this.name,
+    // required this.description,
+    @required this.index,
   }) : super(key: key);
 
-  final String image;
-  final String name;
-  final String description;
+  String image;
+  String name;
+  // final String description;
+  final int index;
 
   @override
   _MainFoodState createState() => _MainFoodState();
 }
 
 class _MainFoodState extends State<MainFood> {
+  // String get name => FoodDetails.[widget.index].name;
+  // String get description => Fo.products[widget.index].description;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -31,39 +36,45 @@ class _MainFoodState extends State<MainFood> {
         appBar: AppBar(
           title: Text(
             widget.name,
-            style: themeData.textTheme.headline5!.copyWith(
+            style: themeData.textTheme.headline6.copyWith(
               letterSpacing: 1.25,
               fontWeight: FontWeight.w800,
+              color: white,
             ),
           ),
         ),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               PictureContainer(size),
               addVertical(size.height * 0.015),
               Expanded(
-                child: Container(
-                  color: black,
+                child: Align(
+                  alignment: Alignment.center,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 7.5, vertical: 5),
+                        horizontal: 15, vertical: 10),
                     child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              child: Container(
-                                child: Text(widget.name),
+                            VendorName(themeData, size, "", ""),
+                            Description(themeData, size, "name", "description"),
+                          ],
+                        ),
+                        // addVertical(size.height),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: ListView.builder(
+                              itemBuilder: (context, index) => const Card(
+                                color: transparent,
                               ),
                             ),
-                            Expanded(
-                              child: Container(
-                                child: Text(widget.description),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       ],
                     ),
@@ -71,6 +82,58 @@ class _MainFoodState extends State<MainFood> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded VendorName(
+      ThemeData themeData, Size size, String name, String description) {
+    return Expanded(
+      child: Container(
+        height: size.height * .17,
+        child: Card(
+          color: transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Vendor", style: themeData.textTheme.headline6),
+                addVertical(size.height * 0.015),
+                Text(
+                  name,
+                  overflow: TextOverflow.visible,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded Description(
+      ThemeData themeData, Size size, String name, String description) {
+    return Expanded(
+      child: Container(
+        height: size.height * .2,
+        child: Card(
+          color: transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Dealers in: ", style: themeData.textTheme.headline6),
+                addVertical(size.height * 0.015),
+                Text(
+                  description,
+                  overflow: TextOverflow.visible,
+                ),
+              ],
+            ),
           ),
         ),
       ),

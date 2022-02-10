@@ -1,4 +1,5 @@
 import 'package:fastex/src/features/Cart/presentation/pages/cartScreen.dart';
+import 'package:fastex/src/searchScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../core/constants/constants.dart';
@@ -7,16 +8,14 @@ import 'Cart/presentation/widgets/catalogProduct.dart';
 import 'Track/presentation/widgets/newMap.dart';
 
 class Homepage extends StatefulWidget {
-  Homepage({Key? key, this.image}) : super(key: key);
-   String? image;
+  Homepage({Key key, this.image}) : super(key: key);
+  String image;
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
-  // late final int index;
   Widget selectedItem = Container();
-  // String get image => Product.products[index].imageURL;
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -25,20 +24,21 @@ class _HomepageState extends State<Homepage> {
       child: Scaffold(
         backgroundColor: Colors.black87,
         appBar: AppBar(
-          backgroundColor: Colors.deepOrangeAccent,
+          // backgroundColor: Colors.deepOrangeAccent,
           leading: IconButton(
             icon: const Icon(Icons.menu),
             color: white,
-            onPressed: () => ZoomDrawer.of(context)!.toggle(),
+            onPressed: () => ZoomDrawer.of(context).toggle(),
             iconSize: 30.0,
           ),
           title: Text(
-            "FastEx",
-            style: themeData.textTheme.headline2!.copyWith(
-              fontSize: 32,
+            "FastEx Deliveries",
+            style: themeData.textTheme.headline2.copyWith(
+              fontSize: 24,
               fontWeight: FontWeight.w600,
               color: white,
-              letterSpacing: 1.25,
+              letterSpacing: .75,
+              wordSpacing: 1.25,
             ),
           ),
           elevation: 0.0,
@@ -46,14 +46,19 @@ class _HomepageState extends State<Homepage> {
             IconButton(
               icon: const Icon(Icons.search),
               color: Colors.white,
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchScreen(),
+                ),
+              ),
               iconSize: 30.0,
             ),
           ],
           bottom: const TabBar(
             tabs: [
               Tab(icon: Icon(Icons.food_bank_outlined, color: white)),
-              Tab(icon: Icon(Icons.history_sharp, color: white)),
+              Tab(icon: Icon(Icons.delivery_dining_outlined, color: white)),
               Tab(icon: Icon(Icons.map_rounded, color: white)),
             ],
           ),
@@ -69,7 +74,7 @@ class _HomepageState extends State<Homepage> {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CartScreen(image: widget.image!),
+              builder: (context) => CartScreen(image: widget.image),
             ),
           ),
           child: const Icon(Icons.shopping_cart_outlined),

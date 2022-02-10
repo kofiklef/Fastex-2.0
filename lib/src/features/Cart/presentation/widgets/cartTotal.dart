@@ -14,14 +14,14 @@ import '../../../../../core/constants/constants.dart';
 
 class CartTotal extends StatefulWidget {
   // final String email;
-  const CartTotal({Key? key}) : super(key: key);
+  const CartTotal({Key key}) : super(key: key);
 
   @override
   State<CartTotal> createState() => _CartTotalState();
 }
 
 class _CartTotalState extends State<CartTotal> {
-  String? _ref;
+  String _ref;
 
   void setRef() {
     Random rand = Random();
@@ -75,7 +75,7 @@ class _CartTotalState extends State<CartTotal> {
                   children: [
                     Text(
                       'Total:',
-                      style: themeData.textTheme.headline5!.copyWith(
+                      style: themeData.textTheme.headline5.copyWith(
                         // fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -83,7 +83,7 @@ class _CartTotalState extends State<CartTotal> {
                     addVertical(4),
                     Text(
                       'GH₵ ${controller.total}',
-                      style: themeData.textTheme.headline5!.copyWith(
+                      style: themeData.textTheme.headline5.copyWith(
                         // fontSize: 18,
                         fontWeight: FontWeight.w600,
                       ),
@@ -91,8 +91,7 @@ class _CartTotalState extends State<CartTotal> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () =>
-                      _makePayment(context, controller.total),
+                  onPressed: () => _makePayment(context, controller.total),
                   child: const Text("Proceed To Pay"),
                 ),
               ],

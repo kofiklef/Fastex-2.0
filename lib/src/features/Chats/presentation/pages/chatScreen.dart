@@ -7,7 +7,7 @@ import 'package:fastex/src/features/Chats/data/models/user_Model.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key, required this.user}) : super(key: key);
+  const ChatScreen({Key key, @required this.user}) : super(key: key);
   final Userr user;
 
   @override
@@ -18,18 +18,18 @@ class _ChatScreenState extends State<ChatScreen> {
   _buildMessage(Message message, bool isMe) {
     final Container msg = Container(
       width: MediaQuery.of(context).size.width * 0.85,
-      margin: isMe
-          ? const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 80.0)
+      margin: isMe?
+           const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 80.0)
           : const EdgeInsets.only(top: 8.0, bottom: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15.0),
-      decoration: message.sender.uid != 0
-          ? BoxDecoration(
+      decoration: message.sender.uid != 0 ?
+           BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(30.0),
                 bottomRight: Radius.circular(30.0),
               ),
-              color: isMe
-                  ? Theme.of(context).colorScheme.secondary
+              color: isMe ?
+                   Theme.of(context).colorScheme.secondary
                   : const Color(0xFFFFEFEE),
             )
           : null,
@@ -63,13 +63,13 @@ class _ChatScreenState extends State<ChatScreen> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         msg,
-        message.sender.uid != 0
-            ? IconButton(
-                icon: message.isLiked
-                    ? const Icon(Icons.favorite_border)
+        message.sender.uid != 0 ? 
+             IconButton(
+                icon: message.isLiked ?
+                     const Icon(Icons.favorite_border)
                     : const Icon(Icons.favorite),
-                color: message.isLiked
-                    ? Theme.of(context).primaryColor
+                color: message.isLiked ?
+                     Theme.of(context).primaryColor
                     : Colors.black,
                 onPressed: () {},
                 iconSize: 30.0,
@@ -100,7 +100,7 @@ class _ChatScreenState extends State<ChatScreen> {
               decoration: InputDecoration.collapsed(
                 hintText: 'Type a message...',
                 hintStyle: themeData.textTheme.headline2
-                    ?.copyWith(fontSize: 17.0, color: ocean),
+                    .copyWith(fontSize: 17.0, color: ocean),
               ),
               onChanged: (value) {
                 setState(() => value = messageInfo);
@@ -133,7 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ElevatedButton(
                 child: Text(
                   "SOS",
-                  style: themeData.textTheme.headline5!.copyWith(
+                  style: themeData.textTheme.headline5.copyWith(
                     color: white,
                     letterSpacing: 1.25,
                     fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 style: ElevatedButton.styleFrom(elevation: 0.0, primary: ocean),
                 child: Text(
                   "Medical Alert",
-                  style: themeData.textTheme.headline5!.copyWith(
+                  style: themeData.textTheme.headline5.copyWith(
                     color: white,
                     letterSpacing: 0.5,
                     fontWeight: FontWeight.bold,
@@ -177,7 +177,7 @@ class _ChatScreenState extends State<ChatScreen> {
           //         child: Text(
           //           "Medical Alert",
           //           style:
-          //               themeData.textTheme.headline5!.copyWith(color: white),
+          //               themeData.textTheme.headline5.copyWith(color: white),
           //         ),
           //         onPressed: () {},
           //       ),

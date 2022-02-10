@@ -7,7 +7,7 @@ class LocationService {
 
   Future<String> getPlaceId(String input) async {
     final String url =
-        'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$input&inputtype=textquery&key=$key';
+        'https://maps.googleapis.com/maps/api/place/findplacefromtext/jsoninput=$input&inputtype=textquery&key=$key';
 
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
@@ -19,7 +19,7 @@ class LocationService {
   Future<Map<String, dynamic>> getPlace(String input) async {
     final placeId = await getPlaceId(input);
     final String url =
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$key';
+        'https://maps.googleapis.com/maps/api/place/details/jsonplace_id=$placeId&key=$key';
 
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
@@ -31,7 +31,7 @@ class LocationService {
 
   Future<Map<String, dynamic>> getDirections(String origin, destination) async {
     final String url =
-        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$key';
+        'https://maps.googleapis.com/maps/api/directions/jsonorigin=$origin&destination=$destination&key=$key';
 
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
@@ -42,7 +42,8 @@ class LocationService {
       'start_location': json['routes'][0]['legs'][0]['start_location'],
       'end_location': json['routes'][0]['legs'][0]['end_location'],
       'polyline': json['routes'][0]['overview_polyline']['points'],
-      'polyline_decoded': PolylinePoints().decodePolyline(json['routes'][0]['overview_polyline']['points']),
+      'polyline_decoded': PolylinePoints()
+          .decodePolyline(json['routes'][0]['overview_polyline']['points']),
     };
 
     print(results);

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:fastex/core/constants/constants.dart';
+import 'package:fastex/core/constants/helperFunctions.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
 import 'package:fastex/core/services/authService.dart';
 import 'package:fastex/core/services/database.dart';
@@ -11,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
   final Function toggleView;
-  const Login({Key? key, required this.toggleView}) : super(key: key);
+  const Login({Key key, @required this.toggleView}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState(toggleView);
@@ -77,7 +78,7 @@ class _LoginState extends State<Login> {
                             child: Column(
                               children: <Widget>[
                                 Text(
-                                  "Login To\n FastEx Deliveries!",
+                                  "Login To\n FastEx Deliveries",
                                   style: GoogleFonts.mcLaren(
                                     textStyle: const TextStyle(
                                       fontSize: 28,
@@ -158,7 +159,7 @@ class _LoginState extends State<Login> {
                                               ),
                                             ),
                                             onPressed: () async {
-                                              if (_formKey.currentState!
+                                              if (_formKey.currentState
                                                   .validate()) {
                                                 setState(() {
                                                   loading = true;
@@ -167,11 +168,13 @@ class _LoginState extends State<Login> {
                                                     .login(
                                                   emailController.text,
                                                   passwordController.text,
-                                                  context: context,
+                                                  // context: context,
                                                 )
                                                     .then((value) {
-                                                  if (value != null) {
-                                                    // HelperFunctions.saveUserLoggedInState(true);
+                                                  if (value = null) {
+                                                    HelperFunctions
+                                                        .saveUserLoggedInState(
+                                                            true);
                                                     Navigator.pushReplacement(
                                                       context,
                                                       MaterialPageRoute(
@@ -182,7 +185,10 @@ class _LoginState extends State<Login> {
                                                   }
                                                 });
                                               } else {
-                                                return;
+                                                setState(() {
+                                                  loading = false;
+                                                });
+                                                ;
                                               }
                                             },
                                           ),
@@ -218,7 +224,7 @@ class _LoginState extends State<Login> {
       String hint, String label, bool pwd, bool userName, Icon icon) {
     // ignore: unnecessary_new
     return TextFormField(
-        validator: (val) => val!.isEmpty
+        validator: (val) => val.isEmpty
             ? 'Create an account using a registered email address'
             : null,
         decoration: InputDecoration(

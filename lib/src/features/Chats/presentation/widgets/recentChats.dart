@@ -8,7 +8,7 @@ import 'package:fastex/src/features/Chats/presentation/pages/chatScreen.dart';
 import 'package:flutter/material.dart';
 
 class RecentChats extends StatelessWidget {
-  const RecentChats({Key? key}) : super(key: key);
+  const RecentChats({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +80,8 @@ class RecentChats extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 child: Text(
                                   chat.text,
-                                  style: chat.unread
-                                      ? themeData.textTheme.bodyText2?.copyWith(
+                                  style: chat.unread ?
+                                       themeData.textTheme.bodyText2.copyWith(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15.0)
                                       : themeData.textTheme.bodyText2,
@@ -104,8 +104,8 @@ class RecentChats extends StatelessWidget {
                             // ),
                           ),
                           addVertical(5.0),
-                          chat.unread
-                              ? Container(
+                          chat.unread ?
+                               Container(
                                   width: 40,
                                   height: 20,
                                   decoration: BoxDecoration(

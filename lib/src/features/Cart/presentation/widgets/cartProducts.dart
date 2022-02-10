@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class CartProducts extends StatelessWidget {
   final CartController controller = Get.find();
-  CartProducts({Key? key, required this.image}) : super(key: key);
+  CartProducts({Key key, @required this.image}) : super(key: key);
   final String image;
 
   @override
@@ -38,11 +38,11 @@ class CartProductCard extends StatelessWidget {
   final CartController controller;
   final Product product;
   const CartProductCard({
-    Key? key,
-    required this.index,
-    required this.quantity,
-    required this.product,
-    required this.controller,
+    Key key,
+    @required this.index,
+    @required this.quantity,
+    @required this.product,
+    @required this.controller,
   }) : super(key: key);
 
   @override
@@ -56,14 +56,14 @@ class CartProductCard extends StatelessWidget {
           CircleAvatar(
             radius: 35,
             backgroundImage: NetworkImage(
-              product.imageURL,
+              product.name,
             ),
           ),
           addHorizontal(20),
           Expanded(
             child: Text(
               product.name,
-              style: themeData.textTheme.headline6!.copyWith(
+              style: themeData.textTheme.headline6.copyWith(
                 letterSpacing: 0.45,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,

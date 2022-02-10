@@ -1,4 +1,4 @@
-
+import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -8,17 +8,17 @@ class Directions {
   final String totalDistance, totalDuration;
 
   const Directions({
-    required this.bounds,
-    required this.polylinePoints,
-    required this.totalDistance,
-    required this.totalDuration,
+    @required this.bounds,
+    @required this.polylinePoints,
+    @required this.totalDistance,
+    @required this.totalDuration,
   });
 
   factory Directions.fromMap(Map<String, dynamic> map) {
     //check if route is not available
     // if ((map['route'] as List).isEmpty) return noSuchMethod();
 
-    //Get route information if there is!
+    //Get route information if there is
     final data = Map<String, dynamic>.from(map['route'][0]);
 
     //bounds

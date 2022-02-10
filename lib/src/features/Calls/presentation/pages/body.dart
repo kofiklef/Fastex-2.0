@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class callBody extends StatelessWidget {
-  const callBody({Key? key}) : super(key: key);
+  const callBody({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,6 @@ class callBody extends StatelessWidget {
               color: Colors.black87,
               colorBlendMode: BlendMode.darken,
             ),
-            
           ],
         ),
       ),

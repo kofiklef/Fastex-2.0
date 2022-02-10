@@ -4,6 +4,7 @@ import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/services/authService.dart';
 import 'package:fastex/src/features/Calls/presentation/pages/callScreen.dart';
 import 'package:fastex/src/features/Track/presentation/pages/trackDelivery.dart';
+import 'package:fastex/src/searchScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
@@ -12,7 +13,7 @@ import 'Homepage/presentation/widgets/sidebar.dart';
 import 'homepage.dart';
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  const LandingPage({Key key}) : super(key: key);
 
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -37,7 +38,7 @@ class _LandingPageState extends State<LandingPage> {
             currentItem: currentItem,
             onSelectedItem: (item) {
               setState(() => currentItem = item);
-              ZoomDrawer.of(context)!.close();
+              ZoomDrawer.of(context).close();
             },
           );
         },
@@ -59,6 +60,8 @@ class _LandingPageState extends State<LandingPage> {
         return const callScreen();
       case MenuItems.tracker:
         return const TrackDelivery();
+      case MenuItems.search:
+        return const SearchScreen();
       default:
         return Homepage();
     }

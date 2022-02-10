@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
+import 'package:flutter/material.dart';
 
 import 'user_Model.dart';
 
@@ -9,11 +10,11 @@ class Message {
   final bool isLiked, unread;
 
   Message({
-    required this.sender,
-    required this.time,
-    required this.text,
-    required this.isLiked,
-    required this.unread,
+    @required this.sender,
+    @required this.time,
+    @required this.text,
+    @required this.isLiked,
+    @required this.unread,
   });
 }
 
@@ -23,10 +24,10 @@ class Group {
   final bool unRead;
 
   Group({
-    required this.sender,
-    required this.time,
-    required this.text,
-    required this.unRead,
+    @required this.sender,
+    @required this.time,
+    @required this.text,
+    @required this.unRead,
   });
 }
 
@@ -135,7 +136,7 @@ List<Message> chats = [
   Message(
     sender: user,
     time: "11:35 AM",
-    text: "What dey pap?",
+    text: "What dey pap",
     isLiked: false,
     unread: true,
   ),
@@ -174,35 +175,35 @@ List<Message> messages = [
   Message(
     sender: user5,
     time: "5:30 PM",
-    text: "How are you doing?",
+    text: "How are you doing",
     unread: true,
     isLiked: true,
   ),
   Message(
     sender: currentUser,
     time: "4:30 PM",
-    text: "I'm good, yourself?",
+    text: "I'm good, yourself",
     unread: false,
     isLiked: true,
   ),
   Message(
     sender: user5,
     time: "3:45 PM",
-    text: "I'm also great... \nHow are we suppossed to go about this?",
+    text: "I'm also great... \nHow are we suppossed to go about this",
     unread: true,
     isLiked: true,
   ),
   Message(
     sender: currentUser,
     time: "3:15 PM",
-    text: "How are we suppossed to go about this? \n ASK THE BOSS",
+    text: "How are we suppossed to go about this \n ASK THE BOSS",
     unread: true,
     isLiked: true,
   ),
   Message(
     sender: user5,
     time: "2:30 PM",
-    text: "How am I suppossed to ask him if I don't even see him at work?",
+    text: "How am I suppossed to ask him if I don't even see him at work",
     unread: false,
     isLiked: true,
   ),
@@ -245,7 +246,7 @@ List<Group> groupsMessage = [
 ];
 
 List<Group> groupChat = [
-   Group(
+  Group(
     sender: userr2,
     time: "12:35 PM",
     text: "Guys, I'm kinda stuck. More info on the repo on GitHub",
@@ -255,14 +256,15 @@ List<Group> groupChat = [
   Group(
     sender: userr,
     time: "11:35 AM",
-    text: "What dey pap?",
+    text: "What dey pap",
     // isLiked: false,
     unRead: true,
   ),
   Group(
     sender: userr6,
     time: "11:05 AM",
-    text: "Heyyy, I got your message! Meet me at the scheduled time so we go to the court together!",
+    text:
+        "Heyyy, I got your message! Meet me at the scheduled time so we go to the court together!",
     // isLiked: false,
     unRead: true,
   ),

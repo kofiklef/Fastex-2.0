@@ -8,16 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+  const Body({Key key}) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-  late final int index;
+  // final int index;
   Widget selectedItem = Container();
-  get image => Product.products[index].imageURL;
+  // get image => Product.products[index].imageURL;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _BodyState extends State<Body> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => CatalogScreen(image: image)),
+        onPressed: () => Get.to(() => CatalogScreen()),
         child: const Icon(
           Icons.shopping_cart_outlined,
           color: white,
@@ -100,7 +100,7 @@ class _BodyState extends State<Body> {
                     onPressed: () => _selectItem,
                     child: Text(
                       filter[index],
-                      style: themeData.textTheme.subtitle1!
+                      style: themeData.textTheme.subtitle1
                           .copyWith(color: white, letterSpacing: 0.75),
                     ),
                   ),

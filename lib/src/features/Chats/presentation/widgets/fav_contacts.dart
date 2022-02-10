@@ -7,7 +7,7 @@ import 'package:fastex/src/features/Chats/presentation/pages/chatScreen.dart';
 import 'package:flutter/material.dart';
 
 class Fav_Contacts extends StatelessWidget {
-  const Fav_Contacts({Key? key}) : super(key: key);
+  const Fav_Contacts({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class Fav_Contacts extends StatelessWidget {
               children: [
                 Text(
                   "FAVORITE CONTACTS",
-                  style: themeData.textTheme.headline2?.copyWith(fontSize: 20.0),
+                  style: themeData.textTheme.headline2.copyWith(fontSize: 20.0),
                 ),
                 IconButton(
                   icon: const Icon(Icons.more_horiz),
@@ -66,7 +66,8 @@ class Fav_Contacts extends StatelessWidget {
                         addVertical(6.0),
                         Text(
                           fav[index].name,
-                          style: themeData.textTheme.headline4?.copyWith(color: white),
+                          style: themeData.textTheme.headline4
+                              .copyWith(color: white),
                         ),
                       ],
                     ),

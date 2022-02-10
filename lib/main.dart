@@ -1,3 +1,5 @@
+// @dart 2.7
+
 import 'package:fastex/core/services/authService.dart';
 import 'package:fastex/core/shared/human.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -14,11 +16,11 @@ void main() async {
 }
 
 class Fastex extends StatelessWidget {
-  const Fastex({Key? key}) : super(key: key);
+  const Fastex({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<Human?>.value(
+    return StreamProvider<Human>.value(
       initialData: Human(uid: "uid"),
       value: AuthService().user,
       child: MaterialApp(
