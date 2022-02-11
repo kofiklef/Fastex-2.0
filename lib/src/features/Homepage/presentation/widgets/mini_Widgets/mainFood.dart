@@ -7,25 +7,22 @@ import 'package:flutter/material.dart';
 class MainFood extends StatefulWidget {
   MainFood({
     Key key,
-    @required this.image,
-    @required this.name,
-    // required this.description,
-    @required this.index,
   }) : super(key: key);
 
-  String image;
-  String name;
   // final String description;
-  final int index;
 
   @override
   _MainFoodState createState() => _MainFoodState();
 }
 
+int index;
+
 class _MainFoodState extends State<MainFood> {
   // String get name => FoodDetails.[widget.index].name;
   // String get description => Fo.products[widget.index].description;
-
+  AsyncSnapshot snapshot;
+  String get image => snapshot.data[index].image;
+  String get name => snapshot.data[index].name;
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -35,7 +32,7 @@ class _MainFoodState extends State<MainFood> {
         backgroundColor: white,
         appBar: AppBar(
           title: Text(
-            widget.name,
+            name,
             style: themeData.textTheme.headline6.copyWith(
               letterSpacing: 1.25,
               fontWeight: FontWeight.w800,
@@ -148,8 +145,8 @@ class _MainFoodState extends State<MainFood> {
         color: Colors.black38,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: Image.asset(
-        widget.image,
+      child: Image.network(
+        image,
         fit: BoxFit.contain,
       ),
     );

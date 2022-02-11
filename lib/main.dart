@@ -1,6 +1,7 @@
-// @dart 2.7
+// @dart = 2.7
 
-import 'package:fastex/core/services/authService.dart';
+// ignore_for_file: missing_required_param
+
 import 'package:fastex/core/shared/human.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class Fastex extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<Human>.value(
       initialData: Human(uid: "uid"),
-      value: AuthService().user,
+      // value: AuthService().user,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: FlexThemeData.light(scheme: FlexScheme.blueWhale),

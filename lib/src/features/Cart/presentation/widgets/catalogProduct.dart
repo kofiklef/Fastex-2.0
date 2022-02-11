@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 
-import 'package:fastex/src/features/Cart/models/productModel.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
 import 'package:fastex/core/shared/fastexAPI.dart';
+import 'package:fastex/src/features/Homepage/presentation/widgets/mini_Widgets/mainFood.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../../core/constants/constants.dart';
 
@@ -39,7 +39,7 @@ class _CatalogProductsState extends State<CatalogProducts> {
           FutureBuilder(
               future: _api.fetchFoods(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) {
+                if (snapshot.hasData) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.5, vertical: 10),
@@ -48,9 +48,19 @@ class _CatalogProductsState extends State<CatalogProducts> {
                       shrinkWrap: true,
                       itemCount: 5,
                       itemBuilder: (context, index) {
-                        Product product = snapshot?.data[index];
+                        // Product product = snapshot.data;
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainFood(
+                                  // image: snapshot.data[index].image,
+                                  // name: snapshot.data[index].name,
+                                ),
+                              ),
+                            );
+                          },
                           child: Card(
                             color: Colors.white70,
                             elevation: 0,
@@ -59,29 +69,33 @@ class _CatalogProductsState extends State<CatalogProducts> {
                               child: Stack(
                                 children: [
                                   Center(
-                                    child: Image.network(
-                                      product.image,
-                                      fit: BoxFit.fitWidth,
-                                    ),
+                                    child: !loading
+                                        ? const Center(
+                                            child: SpinKitFadingCircle(
+                                              color: bGrey,
+                                              size: 55,
+                                            ),
+                                          )
+                                        : Image.network(
+                                            snapshot.data[index].image,
+                                            fit: BoxFit.fitWidth,
+                                          ),
                                   ),
                                   Align(
-                                    alignment: Alignment.bottomRight,
+                                    alignment: Alignment.bottomLeft,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
+                                          horizontal: 10, vertical: 10),
                                       child: Text(
-                                        product.name,
+                                        snapshot.data[index].name,
                                         overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.lato(
-                                          textStyle: themeData
-                                              .textTheme.subtitle1
-                                              .copyWith(
-                                            letterSpacing: 0.45,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle: FontStyle.italic,
-                                            color: white,
-                                          ),
+                                        style: themeData.textTheme.subtitle1
+                                            .copyWith(
+                                          letterSpacing: 0.45,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          // fontStyle: FontStyle.italic,
+                                          color: white,
                                         ),
                                       ),
                                     ),
@@ -98,7 +112,10 @@ class _CatalogProductsState extends State<CatalogProducts> {
                   );
                 } else {
                   return const Center(
-                    child: CircularProgressIndicator.adaptive(),
+                    child: SpinKitFadingCircle(
+                      color: bGrey,
+                      size: 120,
+                    ),
                   );
                 }
               }),

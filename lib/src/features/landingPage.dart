@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:fastex/core/constants/constants.dart';
-import 'package:fastex/core/services/authService.dart';
+
 import 'package:fastex/src/features/Calls/presentation/pages/callScreen.dart';
 import 'package:fastex/src/features/Track/presentation/pages/trackDelivery.dart';
 import 'package:fastex/src/searchScreen.dart';
@@ -21,7 +21,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   MenuItem currentItem = MenuItems.home;
-  final AuthService _auth = AuthService();
+  // final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +34,15 @@ class _LandingPageState extends State<LandingPage> {
       mainScreen: getPages(),
       menuScreen: Builder(
         builder: (context) {
-          return Menupage(
-            currentItem: currentItem,
-            onSelectedItem: (item) {
-              setState(() => currentItem = item);
-              ZoomDrawer.of(context).close();
-            },
+          return GestureDetector(
+            // onTap: Navigator.pop(context),
+            child: Menupage(
+              currentItem: currentItem,
+              onSelectedItem: (item) {
+                setState(() => currentItem = item);
+                ZoomDrawer.of(context).close();
+              },
+            ),
           );
         },
       ),
@@ -50,7 +53,7 @@ class _LandingPageState extends State<LandingPage> {
     switch (currentItem) {
       case MenuItems.logout:
         return ElevatedButton(
-          onPressed: () => _auth.logout(),
+          // onPressed: () => _auth.logout(),
           child: const Text("Logout"),
         );
 

@@ -5,7 +5,6 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../core/constants/constants.dart';
 import 'Calls/presentation/pages/body.dart';
 import 'Cart/presentation/widgets/catalogProduct.dart';
-import 'Track/presentation/widgets/newMap.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({Key key, this.image}) : super(key: key);
@@ -20,7 +19,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         backgroundColor: Colors.black87,
         appBar: AppBar(
@@ -59,7 +58,7 @@ class _HomepageState extends State<Homepage> {
             tabs: [
               Tab(icon: Icon(Icons.food_bank_outlined, color: white)),
               Tab(icon: Icon(Icons.delivery_dining_outlined, color: white)),
-              Tab(icon: Icon(Icons.map_rounded, color: white)),
+              // Tab(icon: Icon(Icons.map_rounded, color: white)),
             ],
           ),
         ),
@@ -67,7 +66,7 @@ class _HomepageState extends State<Homepage> {
           children: [
             CatalogProducts(),
             callBody(),
-            Tracker(),
+            // Tracker(), // kMiniMall
           ],
         ),
         floatingActionButton: FloatingActionButton(

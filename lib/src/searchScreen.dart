@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/helperFunctions.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
-import 'package:fastex/core/services/database.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class SearchScreen extends StatefulWidget {
 // String _myName;
 
 class _SearchScreenState extends State<SearchScreen> {
-  final Database _database = Database();
+  // final Database _database = Database();
   final TextEditingController searchUsernameController =
       TextEditingController();
 
@@ -102,11 +101,11 @@ class _SearchScreenState extends State<SearchScreen> {
       .collection("Food")
       .where("foodName") as QuerySnapshot<Object>;
 
-  initiateSearch() {
-    _database
-        .getFoodByName(searchUsernameController.text)
-        .then((val) => {searchSnapshot = val});
-  }
+  // initiateSearch() {
+  //   _database
+  //       .getFoodByName(searchUsernameController.text)
+  //       .then((val) => {searchSnapshot = val});
+  // }
 
   Widget searchList() {
     return searchUsernameController.text == null ?
@@ -224,7 +223,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         fontSize: 17, color: Colors.black54),
                                     suffixIcon: IconButton(
                                       onPressed: () {
-                                        initiateSearch();
+                                        // initiateSearch();
                                       },
                                       icon: const Icon(Icons.search),
                                     ),

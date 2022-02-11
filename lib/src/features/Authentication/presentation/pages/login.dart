@@ -1,13 +1,15 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'dart:ui';
 
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/helperFunctions.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
-import 'package:fastex/core/services/authService.dart';
-import 'package:fastex/core/services/database.dart';
+import 'package:fastex/core/shared/fastexAPI.dart';
 import 'package:fastex/core/shared/loading.dart';
 import 'package:fastex/src/features/landingPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
@@ -24,8 +26,8 @@ class _LoginState extends State<Login> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final AuthService _auth = AuthService();
-  final Database _database = Database();
+  final FastexAPI _api = FastexAPI();
+  // final Database _database = Database();
   bool loading = false;
   String error = "";
 
@@ -164,7 +166,7 @@ class _LoginState extends State<Login> {
                                                 setState(() {
                                                   loading = true;
                                                 });
-                                                dynamic result = await _auth
+                                                dynamic result = await _api
                                                     .login(
                                                   emailController.text,
                                                   passwordController.text,
@@ -182,13 +184,23 @@ class _LoginState extends State<Login> {
                                                             const LandingPage(),
                                                       ),
                                                     );
+                                                    // Map<String, String>
+                                                    //     userMap = {
+                                                    //   "email": emailController
+                                                    //       .text
+                                                    //       .trim(),
+                                                    //   "password":
+                                                    //       passwordController
+                                                    //           .text
+                                                    //           .trim(),
+                                                    // };
+                                                    // print(userMap);
                                                   }
                                                 });
                                               } else {
                                                 setState(() {
                                                   loading = false;
                                                 });
-                                                ;
                                               }
                                             },
                                           ),

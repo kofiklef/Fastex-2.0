@@ -1,20 +1,18 @@
 import 'dart:ui';
 
-import 'package:crypt/crypt.dart';
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
-import 'package:fastex/core/services/database.dart';
 import 'package:fastex/core/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../core/services/authService.dart';
+
 
 class Register extends StatefulWidget {
   final Function toggleView;
   const Register({Key key, @required this.toggleView}) : super(key: key);
 
-  get tokenId => AuthService();
+  // get tokenId => AuthService();
 
   @override
   _RegisterState createState() => _RegisterState(toggleView);
@@ -22,8 +20,6 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _formkey = GlobalKey<FormState>();
-  final AuthService _auth = AuthService();
-  final Database _database = Database();
   bool loading = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -198,36 +194,36 @@ class _RegisterState extends State<Register> {
                                                     .validate()) {
                                                   setState(
                                                       () => loading = true);
-                                                  dynamic result =
-                                                      await _auth.signup(
-                                                          emailController.text
-                                                              .trim(),
-                                                          passwordController
-                                                              .text
-                                                              .trim());
+                                                  // dynamic result =
+                                                  //     await _auth.signup(
+                                                  //         emailController.text
+                                                  //             .trim(),
+                                                  //         passwordController
+                                                  //             .text
+                                                  //             .trim());
 
-                                                  Map<String, String> userMap =
-                                                      {
-                                                    'userName':
-                                                        userNameController.text
-                                                            .trim(),
-                                                    'email': emailController
-                                                        .text
-                                                        .trim(),
-                                                    'password':
-                                                        passwordController.text
-                                                            .trim()
-                                                  };
+                                                  // Map<String, String> userMap =
+                                                  //     {
+                                                  //   'userName':
+                                                  //       userNameController.text
+                                                  //           .trim(),
+                                                  //   'email': emailController
+                                                  //       .text
+                                                  //       .trim(),
+                                                  //   'password':
+                                                  //       passwordController.text
+                                                  //           .trim()
+                                                  // };
 
-                                                  _database
-                                                      .uploadUserInfo(userMap);
-                                                  if (result == null) {
-                                                    loading = false;
-                                                    error =
-                                                        "An unknown error ...  Please login";
-                                                  } else {
-                                                    // Toast
-                                                  }
+                                                  // _database
+                                                  //     .uploadUserInfo(userMap);
+                                                  // if (result == null) {
+                                                  //   loading = false;
+                                                  //   error =
+                                                  //       "An unknown error ...  Please login";
+                                                  // } else {
+                                                  //   // Toast
+                                                  // }
                                                 }
                                               },
                                             ),

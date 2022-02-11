@@ -20,16 +20,21 @@ class _TrackDeliveryState extends State<TrackDelivery> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
+        // backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.menu),
-          color: black,
+          color: white,
           onPressed: () => ZoomDrawer.of(context).toggle(),
           iconSize: 30.0,
         ),
         title: Text(
           "Track Delivery",
-          style: themeData.textTheme.headline1.copyWith(color: black),
+          style: themeData.textTheme.headline2.copyWith(
+            color: white,
+            fontSize: 24,
+            letterSpacing: 1.25,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: const Tracker(),

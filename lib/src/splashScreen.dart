@@ -1,6 +1,8 @@
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/shared/wrapper.dart';
-// import 'package:fastex/src/features/landingPage.dart';
+import 'package:fastex/src/features/Authentication/presentation/pages/login.dart';
+import 'package:fastex/src/features/homepage.dart';
+
 import 'package:flutter/material.dart';
 // ignore_for_file: file_names
 
@@ -23,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const Wrapper(),
+        builder: (context) => Homepage(),
       ),
     );
   }
