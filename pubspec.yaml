@@ -42,7 +42,7 @@ dependencies:
   flex_color_scheme:
   flutterwave: ^1.0.1
   shared_preferences:
-
+  encrypt:
 
 dev_dependencies:
   flutter_test:

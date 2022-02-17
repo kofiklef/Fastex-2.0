@@ -23,7 +23,7 @@ class Fastex extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<Human>.value(
       initialData: Human(uid: "uid"),
-      // value: AuthService().user,
+      // value: AuthService().thisUser,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: FlexThemeData.light(scheme: FlexScheme.blueWhale),

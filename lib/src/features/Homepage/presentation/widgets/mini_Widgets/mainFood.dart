@@ -19,10 +19,10 @@ int index;
 
 class _MainFoodState extends State<MainFood> {
   // String get name => FoodDetails.[widget.index].name;
-  // String get description => Fo.products[widget.index].description;
+  // // String get description => Fo.products[widget.index].description;
   AsyncSnapshot snapshot;
   String get image => snapshot.data[index].image;
-  String get name => snapshot.data[index].name;
+  // String get name => snapshot.data[index].name;
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -32,7 +32,7 @@ class _MainFoodState extends State<MainFood> {
         backgroundColor: white,
         appBar: AppBar(
           title: Text(
-            name,
+            "",
             style: themeData.textTheme.headline6.copyWith(
               letterSpacing: 1.25,
               fontWeight: FontWeight.w800,
@@ -56,32 +56,35 @@ class _MainFoodState extends State<MainFood> {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            VendorName(themeData, size, "", ""),
-                            Description(themeData, size, "name", "description"),
-                          ],
-                        ),
-                        // addVertical(size.height),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: ListView.builder(
-                              itemBuilder: (context, index) => const Card(
-                                color: transparent,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  VendorName(themeData, size, "", ""),
+                                  Description(
+                                      themeData, size, "name", "description"),
+                                ],
                               ),
-                            ),
+                              // addVertical(size.height),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: ListView.builder(
+                                    itemBuilder: (context, index) => const Card(
+                                      color: transparent,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
+
     );
   }
 

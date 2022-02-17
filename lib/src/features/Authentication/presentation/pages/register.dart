@@ -8,17 +8,17 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 
-class Register extends StatefulWidget {
+class Login extends StatefulWidget {
   final Function toggleView;
-  const Register({Key key, @required this.toggleView}) : super(key: key);
+  const Login({Key key, @required this.toggleView}) : super(key: key);
 
   // get tokenId => AuthService();
 
   @override
-  _RegisterState createState() => _RegisterState(toggleView);
+  _LoginState createState() => _LoginState(toggleView);
 }
 
-class _RegisterState extends State<Register> {
+class _LoginState extends State<Login> {
   final _formkey = GlobalKey<FormState>();
   bool loading = false;
   final emailController = TextEditingController();
@@ -26,7 +26,7 @@ class _RegisterState extends State<Register> {
   final userNameController = TextEditingController();
   String error = "";
 
-  _RegisterState(Function toggleView);
+  _LoginState(Function toggleView);
 
   @override
   void initState() {
@@ -181,7 +181,7 @@ class _RegisterState extends State<Register> {
                                                 ),
                                               ),
                                               child: Text(
-                                                'Register',
+                                                'Login',
                                                 style: GoogleFonts.mcLaren(
                                                   textStyle: const TextStyle(
                                                     letterSpacing: 2.2,

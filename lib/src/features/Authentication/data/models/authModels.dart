@@ -4,6 +4,10 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
+// import 'package:fastex/core/shared/human.dart';
+
 List<AuthService> authServiceFromJson(String str) => List<AuthService>.from(
     json.decode(str).map((x) => AuthService.fromJson(x)));
 
@@ -16,16 +20,16 @@ class AuthService {
     this.firstName,
     this.middleName,
     this.lastName,
-    this.email,
-    this.phoneNumber,
-    this.passwordHash,
-    this.userName,
+    @required this.email,
+    @required this.phoneNumber,
+    @required this.passwordHash,
+    @required this.userName,
     this.isVendor,
     this.agreedToc,
   });
 
   List<AuthService> get user {
-    return authServiceFromJson(firstName);
+    return authServiceFromJson(email);
   }
 
   int id;
@@ -64,4 +68,8 @@ class AuthService {
         "isVendor": isVendor,
         "agreedTOC": agreedToc,
       };
+
+  // Stream<Human> get thisUser {
+  //   return true;
+  // }
 }

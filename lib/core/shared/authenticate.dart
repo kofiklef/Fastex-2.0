@@ -12,12 +12,12 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   bool showLogin = true;
   void toggleView() {
-    setState(() => showLogin = showLogin);
+    setState(() => showLogin = !showLogin);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (showLogin) {
+    if (!showLogin) {
       return Register(toggleView: toggleView);
     } else {
       return Login(toggleView: toggleView);

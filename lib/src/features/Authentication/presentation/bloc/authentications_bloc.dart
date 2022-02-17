@@ -9,6 +9,6 @@ class AuthenticationsBloc extends Bloc<AuthenticationsEvent, AuthenticationsStat
   Stream<AuthenticationsState> mapEventToState(
     AuthenticationsEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+
   }
 }
