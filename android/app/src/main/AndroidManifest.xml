@@ -3,6 +3,9 @@
    <application
         android:label="FastEx Deliveries"
         android:icon="@mipmap/launcher_icon">
+        <meta-data
+              android:name="com.google.android.geo.API_KEY"
+              android:value="AIzaSyAd6cleihZYULABInnZ4KEkj-Hu6uCd7wE"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -27,9 +30,6 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
-            <meta-data
-              android:name="com.google.android.geo.API_KEY"
-              android:value="AIzaSyAd6cleihZYULABInnZ4KEkj-Hu6uCd7wE"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

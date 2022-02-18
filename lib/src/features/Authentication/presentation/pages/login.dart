@@ -1,6 +1,7 @@
 // ignore_for_file: no_logic_in_create_state
 
 // import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
@@ -38,7 +39,7 @@ class _RegisterState extends State<Register> {
   String error = "";
   int id;
 
-  void setID() {
+  setID() {
     Random rand = Random();
     int number = rand.nextInt(3000);
     if (Platform.isAndroid) {
@@ -66,7 +67,7 @@ class _RegisterState extends State<Register> {
         actions: [
           TextButton(
             onPressed: () {
-              widget.toggleView();
+              widget.toggleView;
             },
             child: const Text("Register"),
           ),
@@ -86,112 +87,114 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Expanded newForm(BuildContext context) {
-    return Expanded(
-      child: Column(
-        verticalDirection: VerticalDirection.down,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: Theme(
-              data: ThemeData(
-                brightness: Brightness.dark,
-                primarySwatch: Colors.blue,
-                inputDecorationTheme: const InputDecorationTheme(
-                  labelStyle: TextStyle(
-                    color: dBlue,
-                    fontSize: 20.0,
-                  ),
+  Column newForm(BuildContext context) {
+    return Column(
+      verticalDirection: VerticalDirection.down,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Form(
+          key: _formKey,
+          child: Theme(
+            data: ThemeData(
+              brightness: Brightness.dark,
+              primarySwatch: Colors.blue,
+              inputDecorationTheme: const InputDecorationTheme(
+                labelStyle: TextStyle(
+                  color: dBlue,
+                  fontSize: 20.0,
                 ),
-                textTheme: screenWidth < 500 ? smallScreen : bigScreen,
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      "Register To\n FastEx Deliveries",
-                      style: GoogleFonts.mcLaren(
-                        textStyle: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: lightB,
-                          letterSpacing: 1.75,
-                          fontStyle: FontStyle.normal,
-                        ),
+              textTheme: screenWidth < 500 ? smallScreen : bigScreen,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "Register To\n FastEx Deliveries",
+                    style: GoogleFonts.mcLaren(
+                      textStyle: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: lightB,
+                        letterSpacing: 1.75,
+                        fontStyle: FontStyle.normal,
                       ),
                     ),
-                    addVertical(10),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          buildTextFormField(
-                            "Enter Username",
-                            "UserName",
-                            false,
-                            true,
-                            false,
-                            const Icon(Icons.person),
-                          ),
-                          addVertical(10),
-                          buildTextFormField(
-                            "Enter Phone Number",
-                            "Phone",
-                            false,
-                            true,
-                            true,
-                            const Icon(Icons.phone),
-                          ),
-                          addVertical(10),
-                          buildTextFormField(
-                            "Enter a valid email",
-                            "Email",
-                            false,
-                            false,
-                            false,
-                            const Icon(Icons.email),
-                          ),
-                          addVertical(10),
-                          buildTextFormField(
-                            "Enter your password",
-                            "Password",
-                            true,
-                            false,
-                            false,
-                            const Icon(Icons.lock),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 20.0),
-                          ),
-                          addVertical(10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              registerButton(context),
-                            ],
-                          ),
-                          addVertical(15),
-                          Text(
-                            error,
-                            style: GoogleFonts.mcLaren(
-                              textStyle: TextStyle(
-                                color: Colors.red[500],
-                                fontWeight: FontWeight.bold,
-                              ),
+                  ),
+                  addVertical(10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        buildTextFormField(
+                          "Enter Username",
+                          "UserName",
+                          false,
+                          true,
+                          false,
+                          const Icon(Icons.person),
+                          userController,
+                        ),
+                        addVertical(10),
+                        buildTextFormField(
+                          "Enter Phone Number",
+                          "Phone",
+                          false,
+                          false,
+                          true,
+                          const Icon(Icons.phone),
+                          phoneController,
+                        ),
+                        addVertical(10),
+                        buildTextFormField(
+                          "Enter a valid email",
+                          "Email",
+                          false,
+                          false,
+                          false,
+                          const Icon(Icons.email),
+                          emailController,
+                        ),
+                        addVertical(10),
+                        buildTextFormField(
+                          "Enter your password",
+                          "Password",
+                          true,
+                          false,
+                          false,
+                          const Icon(Icons.lock),
+                          passwordController,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20.0),
+                        ),
+                        addVertical(10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            registerButton(context),
+                          ],
+                        ),
+                        addVertical(15),
+                        Text(
+                          error,
+                          style: GoogleFonts.mcLaren(
+                            textStyle: TextStyle(
+                              color: Colors.red[500],
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -217,125 +220,139 @@ class _RegisterState extends State<Register> {
             loading = true;
             // Password Encryyption
             var plainText, passwordHash;
-            plainText = passwordController.text;
-            setState(() {
-              passwordHash = EncryptionsDecryption.encryptAES(plainText); 
-            });
+            plainText = passwordController.text.trim();
+            passwordHash = EncryptionsDecryption.encryptAES(plainText);
 
-            _api
-                .registerUser(
-                  id,
-                  userController.text,
-                  emailController.text,
-                  passwordHash,
-                  phoneController.text,
-                )
-                .then(
-                  (value) => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LandingPage(),
-                    ),
-                  ),
-                );
-          });
-        }
-      },
-    );
-  }
-
-  TextFormField buildTextFormField(String hint, String label, bool pwd,
-      bool userName, bool isPhone, Icon icon) {
-    // ignore: unnecessary_new
-    return TextFormField(
-        validator: (val) => val.isEmpty
-            ? 'Create an account using a registered email address'
-            : null,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: const TextStyle(
-            color: white,
-            fontWeight: FontWeight.bold,
-          ),
-          labelText: label,
-          labelStyle: const TextStyle(
-            color: white,
-            fontWeight: FontWeight.bold,
-          ),
-          border: InputBorder.none,
-          prefixIcon: icon,
-          fillColor: ocean,
-          filled: true,
-          focusColor: dBlue,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: const BorderSide(color: dBlue),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: const BorderSide(color: dBlue),
-          ),
-        ),
-        obscureText: pwd ? true : false,
-        keyboardType: pwd
-            ? TextInputType.text
-            : isPhone
-                ? TextInputType.phone
-                : TextInputType.emailAddress,
-        autofillHints: const [AutofillHints.email],
-        onChanged: pwd
-            ? (val) {
-                passwordController.text = val;
-              }
-            : !userName
-                ? (val) {
-                    emailController.text = val;
-                  }
-                : !isPhone
-                    ? (val) {
-                        userController.text = val;
-                      }
-                    : (val) {
-                        phoneController.text = val;
-                      });
-  }
-
-  registerMe(String email, password, userName, phoneNumber) async {
-    var authority = _api.authority;
-    var response = await http.post(Uri.https(
-      authority,
-      "api/Users/AddUser",
-    ));
-    Map<String, dynamic> _mapedData = {
-      "email": email,
-      "password": password,
-      "userName": userName,
-      "phoneNumber": phoneNumber
-    };
-    try {
-      if (response.statusCode == 200) {
-        setState(() {
-          loading = false;
-        });
-        _api
-            .registerUser(
+            registerMe(
               id,
-              userName,
-              email,
-              password,
-              phoneNumber,
-            )
-            .then(
-              (value) => Navigator.push(
+              userController.text,
+              emailController.text,
+              passwordHash,
+              phoneController.text,
+            ).then(
+              (value) => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const LandingPage(),
                 ),
               ),
             );
+          });
+        }
+      },
+    );
+  }
+
+  TextFormField buildTextFormField(
+    String hint,
+    label,
+    bool pwd,
+    userName,
+    isPhone,
+    Icon icon,
+    TextEditingController controller,
+  ) {
+    return TextFormField(
+      validator: (val) => val.isEmpty
+          ? 'Create an account using a registered email address'
+          : null,
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: const TextStyle(
+          color: white,
+          fontWeight: FontWeight.bold,
+        ),
+        labelText: label,
+        labelStyle: const TextStyle(
+          color: white,
+          fontWeight: FontWeight.bold,
+        ),
+        border: InputBorder.none,
+        prefixIcon: icon,
+        fillColor: ocean,
+        filled: true,
+        focusColor: dBlue,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: const BorderSide(color: dBlue),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: const BorderSide(color: dBlue),
+        ),
+      ),
+      obscureText: pwd ? true : false,
+      keyboardType: pwd
+          ? TextInputType.text
+          : isPhone
+              ? TextInputType.phone
+              : TextInputType.emailAddress,
+      autofillHints: const [AutofillHints.email],
+      onChanged: userName
+          ? (val) {
+              userController.text = val;
+            }
+          : (isPhone
+              ? (val) {
+                  phoneController.text = val;
+                }
+              : (pwd
+                  ? (val) {
+                      passwordController.text = val;
+                    }
+                  : (val) {
+                      emailController.text = val;
+                    })),
+    );
+  }
+
+  registerMe(int id, String email, password, userName, phoneNumber) async {
+    var plainText, passwordHash;
+    // var authority = _api.authority;
+    plainText = passwordController.text;
+    passwordHash = EncryptionsDecryption.encryptAES(plainText);
+    Map<dynamic, dynamic> _mappedData = {
+      "id": setID,
+      "email": emailController.text,
+      "userName": userController.text,
+      "passwordHash": passwordHash,
+      "phoneNumber": phoneController.text,
+      "isVendor": false,
+      "agreedTOC": false,
+    };
+    try {
+      var response = await http.post(
+        Uri.parse("fastexapi.azurewebsites.net/api/Users/AddUser/"),
+        body: _mappedData,
+        encoding: Encoding.getByName("utf-8"),
+      );
+      if (response.statusCode == 200) {
+        setState(() async {
+          loading = true;
+          await _api
+              .registerUser(
+                setID(),
+                userController.text,
+                emailController.text,
+                passwordHash,
+                phoneController.text,
+              )
+              .then((value) => setState(() {
+                    loading = false;
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LandingPage(),
+                      ),
+                    );
+                  }));
+        });
       }
-    } catch (error) {
-      throw Exception("BAD REQUEST!");
+    } catch (err) {
+      //  return Get.snackbar("Error!", error.toString());
+      print(err.toString());
+      // throw Exception("BAD REQUEST!: ${err.toString()}");
+      return null;
     }
   }
 }

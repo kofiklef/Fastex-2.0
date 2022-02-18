@@ -22,7 +22,12 @@ class HelperFunctions {
     return await prefs.setString(userEmailKey, userEmail);
   }
 
-  // get data from sharedPreferences
+   static Future<bool> saveHashPassword(String paasswordHash) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(userEmailKey, paasswordHash);
+  }
+
+  //! get data from sharedPreferences
   static Future<String> getUserLoggedInState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(hashedPassword);
@@ -30,11 +35,16 @@ class HelperFunctions {
 
   static Future<String> getUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(password);
+    return prefs.getString(username);
   }
 
   static Future<String> getUserEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(userEmailKey);
+  }
+
+  static Future<String> getPasswordHash() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(hashedPassword);
   }
 }
