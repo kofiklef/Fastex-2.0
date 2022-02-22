@@ -50,7 +50,10 @@ class _MainFoodState extends State<MainFood> {
                 addVertical(size.height * 0.015),
                 Description_Vendor(themeData, size),
                 addVertical(size.height * 0.01),
-                const Text("Dealers In: "),
+                Text(
+                  "Dealers In: ",
+                  style: themeData.textTheme.headline5,
+                ),
                 DealersIn(themeData, size),
               ],
             ),
@@ -60,31 +63,16 @@ class _MainFoodState extends State<MainFood> {
     );
   }
 
-  Expanded Description_Vendor(ThemeData themeData, Size size) {
-    return Expanded(
-      child: Align(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  VendorName(themeData, size, "", ""),
-                  Description(themeData, size, widget.name, widget.description),
-                ],
-              ),
-              // addVertical(size.height),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) => const Card(
-                    color: transparent,
-                  ),
-                ),
-              ),
-            ],
-          ),
+  Padding Description_Vendor(ThemeData themeData, Size size) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            VendorName(themeData, size, "", ""),
+            Description(themeData, size, widget.name, widget.description),
+          ],
         ),
       ),
     );
@@ -93,7 +81,7 @@ class _MainFoodState extends State<MainFood> {
   Expanded VendorName(
       ThemeData themeData, Size size, String name, String description) {
     return Expanded(
-      child: Container(
+      child: SizedBox(
         height: size.height * .17,
         child: Card(
           color: transparent,
@@ -145,43 +133,62 @@ class _MainFoodState extends State<MainFood> {
   Expanded DealersIn(ThemeData themeData, Size size) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ListView.separated(
+        padding: EdgeInsets.symmetric(
+            horizontal: size.width * .035, vertical: size.height * 0.01),
+        child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.only(right: 15),
           itemBuilder: (context, index) {
             return Container(
-              width: size.width,
+              width: size.width * 0.7,
+              // height: size.height * 0.6,
               color: transparent,
-              child: const Card(
-                color: bGrey,
-                child: Text("data"),
+              child: Padding(
+                padding: EdgeInsets.only(right: size.width * .05),
+                child: Card(
+                  color: bGrey,
+                  child: Stack(
+                    children: [
+                      PictureContainer(size),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Any Food",
+                            style: themeData.textTheme.subtitle1.copyWith(
+                              color: white,
+                              letterSpacing: 0.75,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             );
           },
-          separatorBuilder: (context, builder) => SizedBox(
-            width: size.width * 0.17,
-          ),
           itemCount: 5,
         ),
       ),
     );
   }
 
-  Container PictureContainer(Size size, {AsyncSnapshot snapshot, int index}) {
+  Container PictureContainer(Size size) {
     return Container(
       height: size.height * .30,
-      width: size.width * .85,
+      width: size.width,
       decoration: const BoxDecoration(
-        color: Colors.black38,
+        color: transparent,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Center(
         child: !loading
             ? const Center(child: Loading())
-            : Image.network(
-                snapshot.data[index].image,
+            : Image.asset(
+                "assets/images/beans.jpeg",
                 fit: BoxFit.fitWidth,
               ),
       ),

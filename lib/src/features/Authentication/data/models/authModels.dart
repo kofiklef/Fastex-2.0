@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final authService = authServiceFromJson(jsonString);
+//     final Post = authServiceFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 
 // import 'package:fastex/core/shared/human.dart';
 
-List<AuthService> authServiceFromJson(String str) => List<AuthService>.from(
-    json.decode(str).map((x) => AuthService.fromJson(x)));
+List<Post> postFromJson(String str) => List<Post>.from(
+    json.decode(str).map((x) => Post.fromJson(x)));
 
-String authServiceToJson(List<AuthService> data) =>
+String postToJson(List<Post> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class AuthService {
-  AuthService({
+class Post {
+  Post({
     this.id,
     this.firstName,
     this.middleName,
@@ -28,8 +28,8 @@ class AuthService {
     this.agreedToc,
   });
 
-  List<AuthService> get user {
-    return authServiceFromJson(email);
+  List<Post> get user {
+    return postFromJson(email);
   }
 
   int id;
@@ -43,7 +43,7 @@ class AuthService {
   bool isVendor;
   bool agreedToc;
 
-  factory AuthService.fromJson(Map<String, dynamic> json) => AuthService(
+  factory Post.fromJson(Map<String, dynamic> json) => Post(
         id: json["id"],
         firstName: json["firstName"],
         middleName: json["middleName"],
@@ -68,8 +68,4 @@ class AuthService {
         "isVendor": isVendor,
         "agreedTOC": agreedToc,
       };
-
-  // Stream<Human> get thisUser {
-  //   return true;
-  // }
 }

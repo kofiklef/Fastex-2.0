@@ -7,15 +7,10 @@ class EncryptionsDecryption {
   static final encrypter = Encrypter(AES(key));
 
   static encryptAES(String text) {
-    final passwordHash = encrypter.encrypt(text, iv: iv);
-    // print(passwordHash.bytes);
-    print(passwordHash.base16);
-    print(passwordHash.base64);
-    print("NOW YOU SEE ME!");
-    return passwordHash;
+    return encrypter.encrypt(text, iv: iv);
   }
 
-  static decryptAES(text) {
+  static decryptAES(Encrypted text) {
     return encrypter.decrypt(text, iv: iv);
   }
 }

@@ -2,7 +2,7 @@
 
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
-import 'package:fastex/src/features/Cart/models/productModel.dart';
+// import 'package:fastex/src/features/Cart/models/productModel.dart';
 import 'package:fastex/src/features/Cart/presentation/pages/CatalogScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

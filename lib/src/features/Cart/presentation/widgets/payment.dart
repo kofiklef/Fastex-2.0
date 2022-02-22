@@ -34,7 +34,7 @@ class _PaymentState extends State<Payment> {
               Row(
                 children: [
                   Row(
-                    children: [],
+                    children: const [],
                   )
                 ],
               ),

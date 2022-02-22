@@ -38,6 +38,9 @@ class _CatalogProductsState extends State<CatalogProducts> {
         FutureBuilder(
             future: _api.fetchFoods(),
             builder: (context, snapshot) {
+              if (snapshot.connectionState == loading) {
+                return const CircularProgressIndicator.adaptive();
+              }
               if (snapshot.hasData) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
@@ -53,7 +56,7 @@ class _CatalogProductsState extends State<CatalogProducts> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>  MainFood(
+                              builder: (context) => MainFood(
                                 image: snapshot.data[index].image,
                                 name: snapshot.data[index].name,
                                 description: snapshot.data[index].extraData,

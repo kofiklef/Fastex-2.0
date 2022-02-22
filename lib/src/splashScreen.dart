@@ -1,5 +1,6 @@
 // import 'package:fastex/core/shared/wrapper.dart';
-import 'package:fastex/src/features/landingPage.dart';
+import 'package:fastex/src/features/Authentication/presentation/pages/login.dart';
+// import 'package:fastex/src/features/landingPage.dart';
 import 'package:flutter/material.dart';
 
 import '../core/constants/constants.dart';
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const LandingPage(),
+        builder: (context) => const Register(),
       ),
     );
   }

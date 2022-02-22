@@ -19,7 +19,7 @@ class CatalogScreen extends StatelessWidget {
         child: SizedBox(
           child: Column(
             children: [
-              CatalogProducts(),
+              const CatalogProducts(),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: ocean),
                 onPressed: () => Get.to(

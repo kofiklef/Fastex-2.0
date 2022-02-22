@@ -1,4 +1,4 @@
-import 'package:fastex/src/features/Homepage/data/models/vendorModel.dart';
+// import 'package:fastex/src/features/Homepage/data/models/vendorModel.dart';
 import 'package:flutter/material.dart';
 
 class Vendors extends StatefulWidget {

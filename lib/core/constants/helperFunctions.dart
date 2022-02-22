@@ -1,20 +1,27 @@
+import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunctions {
-  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  static String hashedPassword = "hashedPassword";
-  static String password = "password";
+  static String userLoggedInKey = "LoggedIn";
+  static String userNameKey = "UserNameKey";
   static String userEmailKey = "UserEmailKey";
-  static String username = "";
+  static String passwordKey = "PasswordKey";
+  static Encrypted passwordHash = "PasswordHash" as Encrypted;
 
-  static Future<bool> saveUserLoggedInState(bool isLoggedin) async {
+  // saving data to sharedPreferences
+  static Future<bool> saveUserLoggedInState(bool isLoggedIn) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setBool(password, isLoggedin);
+    return await prefs.setBool(userLoggedInKey, isLoggedIn);
   }
 
   static Future<bool> saveUserName(String userName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setString(username, userName);
+    return await prefs.setString(userNameKey, userName);
+  }
+  
+  static Future<bool> saveEncryptedPassword(Encrypted passwordHash) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(userNameKey, passwordHash.toString());
   }
 
   static Future<bool> saveUserEmail(String userEmail) async {
@@ -22,29 +29,19 @@ class HelperFunctions {
     return await prefs.setString(userEmailKey, userEmail);
   }
 
-   static Future<bool> saveHashPassword(String paasswordHash) async {
+  // get data from sharedPreferences
+  static Future<bool> getUserLoggedInState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setString(userEmailKey, paasswordHash);
-  }
-
-  //! get data from sharedPreferences
-  static Future<String> getUserLoggedInState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(hashedPassword);
+    return prefs.getBool(userLoggedInKey);
   }
 
   static Future<String> getUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(username);
+    return prefs.getString(userNameKey);
   }
 
   static Future<String> getUserEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(userEmailKey);
-  }
-
-  static Future<String> getPasswordHash() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(hashedPassword);
   }
 }
