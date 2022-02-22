@@ -4,5 +4,5 @@ import 'package:fastex/src/features/Homepage/domain/entities/landing.dart';
 
 abstract class LandingRepository {
   Future<Either<Failure, Landing>> getSpecificFoodData(String name);
-  Future<Either<Failure, Landing>> getRandomFoodData();
+  Future<Either<Failure, Landing>> getAllFoodData();
 }

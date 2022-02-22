@@ -1,19 +1,21 @@
+
 import 'package:dartz/dartz.dart';
+import 'package:fastex/core/utils/usecases.dart';
 import 'package:fastex/src/features/Homepage/domain/entities/landing.dart';
 import 'package:fastex/src/features/Homepage/domain/repos/landing_repo.dart';
-import 'package:fastex/src/features/Homepage/domain/usecase/getSpecificFoodData.dart';
+import 'package:fastex/src/features/Homepage/domain/usecase/getAllFoodData.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 class MockLandingRepository extends Mock implements LandingRepository {}
 
 void main() {
-  GetSpecificFoodData usecase;
+  GetAllFoodData usecase;
   MockLandingRepository mockLandingRepository;
 
   setUp(() {
     mockLandingRepository = MockLandingRepository();
-    usecase = GetSpecificFoodData(mockLandingRepository);
+    usecase = GetAllFoodData(mockLandingRepository);
   });
   const testPrice = 20;
   const testName = "testName";
@@ -26,13 +28,15 @@ void main() {
   );
 
   test(
-    "should get Food Data from the repository",
+    "should get All Food Data from the repository",
     () async {
-      when(mockLandingRepository.getSpecificFoodData(any))
+      when(mockLandingRepository.getAllFoodData())
           .thenAnswer((_) async => const Right(testLanding));
-      final result = await usecase(const Params(name: testName));
+      // act
+      final result = await usecase(NoParams());
+      // assert
       expect(result, const Right(testLanding));
-      verify(mockLandingRepository.getSpecificFoodData(testName));
+      verify(mockLandingRepository.getAllFoodData());
       verifyNoMoreInteractions(mockLandingRepository);
     },
   );
