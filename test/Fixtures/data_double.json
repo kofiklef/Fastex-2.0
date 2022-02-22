@@ -1,0 +1,7 @@
+{
+    "id": 1,
+    "name": "testName",
+    "price": 25.0,
+    "image": "tui",
+    "extraData": "extraData"
+}
