@@ -15,6 +15,7 @@ void main() {
     mockLandingRepository = MockLandingRepository();
     usecase = GetSpecificFoodData(mockLandingRepository);
   });
+  const testID = 1;
   const testPrice = 20;
   const testName = "testName";
   const testImage = "testImage";
@@ -30,9 +31,9 @@ void main() {
     () async {
       when(mockLandingRepository.getSpecificFoodData(any))
           .thenAnswer((_) async => const Right(testLanding));
-      final result = await usecase(const Params(name: testName));
+      final result = await usecase(const Params(id: testID));
       expect(result, const Right(testLanding));
-      verify(mockLandingRepository.getSpecificFoodData(testName));
+      verify(mockLandingRepository.getSpecificFoodData(testID));
       verifyNoMoreInteractions(mockLandingRepository);
     },
   );

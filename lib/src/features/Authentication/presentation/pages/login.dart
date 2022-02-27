@@ -1,340 +1,363 @@
-// ignore_for_file: no_logic_in_create_state
-
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:fastex/core/constants/constants.dart';
-import 'package:fastex/core/constants/helperFunctions.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
 import 'package:fastex/core/shared/fastexAPI.dart';
 import 'package:fastex/core/shared/loading.dart';
-import 'package:fastex/src/features/Authentication/data/models/encryption.dart';
+import 'package:fastex/src/features/Authentication/data/models/authModels.dart';
+import 'package:fastex/src/features/Authentication/presentation/pages/register.dart';
 import 'package:fastex/src/features/landingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class Register extends StatefulWidget {
+class Login extends StatefulWidget {
   final Function toggleView;
-  const Register({Key key, @required this.toggleView}) : super(key: key);
+  const Login({Key key, this.toggleView}) : super(key: key);
+
+  // get tokenId => AuthService();
 
   @override
-  _RegisterState createState() => _RegisterState(toggleView);
+  _LoginState createState() => _LoginState(toggleView);
 }
 
-Random rand = Random();
-int number = rand.nextInt(3000);
-int customID = number;
-
-class _RegisterState extends State<Register> {
-  _RegisterState(Function toggleView);
-  double screenWidth = window.physicalSize.width;
-  final phoneController = TextEditingController();
-  final userController = TextEditingController();
+class _LoginState extends State<Login> {
+  final _formkey = GlobalKey<FormState>();
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  final FastexAPI _api = FastexAPI();
-  // final Database _database = Database();
-  bool loading = false;
-  String error = "";
 
-  setID() {}
+  final FastexAPI _api = FastexAPI();
+
+  bool loading = false;
+  bool isDisabled = true;
+  String error = "";
+  bool isAPIcall = false;
+  _LoginState(Function toggleView);
+  AuthRequest authRequest;
+
+  @override
+  void initState() {
+    super.initState();
+    authRequest = AuthRequest();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    authRequest;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ocean,
-        title: Text(
-          "Registeration Page",
-          style: themeData.textTheme.headline5,
+    return Loading(
+      child: uiBuild(context),
+      isAsyncCall: isAPIcall,
+      opacity: 0.75,
+    );
+  }
+
+  Widget uiBuild(BuildContext context) {
+    double screenWidth = window.physicalSize.width;
+    final size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        appBar: appBarComponent(
+          dBlue,
+          null,
+          "Login Page",
+          const Icon(Icons.person, color: white),
+          () {},
+          "",
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              widget.toggleView;
-            },
-            child: const Text("Login"),
+        body: ClipRRect(
+          child: details(screenWidth, size, context),
+        ),
+      ),
+    );
+  }
+
+  Container details(double screenWidth, Size size, BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 5,
+        vertical: 1,
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          ClipRRect(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onChanged: () {
+                    final form = _formkey.currentState;
+                    setState(() {
+                      if (form.validate()) {
+                        isDisabled = false;
+                      } else {
+                        isDisabled = true;
+                      }
+                    });
+                  },
+                  key: _formkey,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Login into your account!",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: dBlue,
+                            letterSpacing: 1.75,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                      addVertical(size.height * 0.01),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            buildTextFormField(
+                              "Enter A valid Email address",
+                              "Email",
+                              emailController,
+                              true,
+                            ),
+                            addVertical(size.height * 0.01),
+                            buildTextFormField(
+                              'Enter password',
+                              'Password',
+                              passwordController,
+                              false,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 20.0),
+                            ),
+                            addVertical(size.height * 0.01),
+                            SizedBox(
+                              height: size.height * 0.07,
+                              width: size.width,
+                              child: loginButton(
+                                context,
+                                "Login",
+                                isDisabled
+                                    ? null
+                                    : () async {
+                                        // signIn();
+                                        if (validateAndSave()) {
+                                          setState(() {
+                                            isAPIcall = true;
+                                          });
+
+                                          _api
+                                              .login(authRequest)
+                                              .then((value) => {
+                                                    setState(() {
+                                                      isAPIcall = false;
+                                                    }),
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const LandingPage(),
+                                                      ),
+                                                    )
+                                                  });
+                                          showTopSnackBar(
+                                            context,
+                                            const CustomSnackBar.success(
+                                              message:
+                                                  "You have sucessfully logged into your account!",
+                                            ),
+                                          );
+                                          print(authRequest.toJson());
+                                        }
+                                      },
+                              ),
+                            ),
+                            addVertical(size.height * 0.015),
+                            Text(
+                              error,
+                              style: GoogleFonts.lato(
+                                textStyle: TextStyle(
+                                  color: Colors.red[500],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      addVertical(size.height * 0.0015),
+                      Text(
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tOr \nCreate an Account with Us!",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            color: orange,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      addVertical(size.height * 0.025),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                        child: SizedBox(
+                          height: size.height * 0.07,
+                          width: size.width,
+                          child: loginButton(
+                            context,
+                            "Register",
+                            () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Register(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
-      body: loading
-          ? const Loading()
-          : ClipRRect(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    newForm(context),
-                  ],
-                ),
-              ),
-            ),
     );
   }
 
-  Expanded newForm(BuildContext context) {
-    return Expanded(
-      child: Form(
-        key: _formKey,
-        child: Theme(
-          data: ThemeData(
-            brightness: Brightness.dark,
-            primarySwatch: Colors.blue,
-            inputDecorationTheme: const InputDecorationTheme(
-              labelStyle: TextStyle(
-                color: dBlue,
-                fontSize: 20.0,
-              ),
-            ),
-            textTheme: screenWidth < 500 ? smallScreen : bigScreen,
-          ),
-          child: Column(
-            children: <Widget>[
-              Text(
-                "Register To\n FastEx Deliveries",
-                style: GoogleFonts.mcLaren(
-                  textStyle: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: lightB,
-                    letterSpacing: 1.75,
-                    fontStyle: FontStyle.normal,
-                  ),
-                ),
-              ),
-              addVertical(10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    buildTextFormField(
-                      "Enter Username",
-                      "UserName",
-                      false,
-                      true,
-                      false,
-                      const Icon(Icons.person),
-                      userController,
-                    ),
-                    addVertical(10),
-                    buildTextFormField(
-                      "Enter Phone Number",
-                      "Phone",
-                      false,
-                      false,
-                      true,
-                      const Icon(Icons.phone),
-                      phoneController,
-                    ),
-                    addVertical(10),
-                    buildTextFormField(
-                      "Enter a valid email",
-                      "Email",
-                      false,
-                      false,
-                      false,
-                      const Icon(Icons.email),
-                      emailController,
-                    ),
-                    addVertical(10),
-                    buildTextFormField(
-                      "Enter your password",
-                      "Password",
-                      true,
-                      false,
-                      false,
-                      const Icon(Icons.lock),
-                      passwordController,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 15.0),
-                    ),
-                    addVertical(10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        registerButton(context),
-                      ],
-                    ),
-                    addVertical(15),
-                    Text(
-                      error,
-                      style: GoogleFonts.mcLaren(
-                        textStyle: TextStyle(
-                          color: Colors.red[500],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  ElevatedButton registerButton(BuildContext context) {
+  ElevatedButton loginButton(
+      BuildContext context, String text, Function function) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        primary: dBlue,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
         ),
       ),
       child: Text(
-        'Register',
-        style: GoogleFonts.mcLaren(
+        text,
+        style: GoogleFonts.lato(
           textStyle: const TextStyle(
+            fontSize: 22,
             letterSpacing: 2.2,
-            color: Colors.black,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
-      onPressed: () async {
-        if (_formKey.currentState.validate()) {
-          setState(() {
-            loading = true;
-          });
-          var plainText, passwordHash;
-          plainText = passwordController.text.trim();
-          passwordHash = EncryptionsDecryption.encryptAES(plainText);
+      // onPressed: () async {
+      //   // signIn();
+      //   if (validateAndSave()) {
+      //     setState(() {
+      //       isAPIcall = true;
+      //     });
 
-          await registerMe(
-            customID,
-            userController.text,
-            emailController.text,
-            passwordHash.toString(),
-            phoneController.text,
-          );
-        }
-      },
+      //     _api.login(authRequest).then((value) => {
+      //           setState(() {
+      //             isAPIcall = false;
+      //           }),
+      //           Navigator.pushReplacement(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => const LandingPage(),
+      //             ),
+      //           )
+      //         });
+      //     print(authRequest.toJson());
+      //   }
+      // },
+      onPressed: function,
     );
+  }
+
+  bool validateAndSave() {
+    final form = _formkey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   TextFormField buildTextFormField(
-    String hint,
-    label,
-    bool pwd,
-    userName,
-    isPhone,
-    Icon icon,
-    TextEditingController controller,
-  ) {
+      String hint, label, TextEditingController controller, bool isEmail) {
     return TextFormField(
-      validator: (val) => val.isEmpty
-          ? 'Create an account using a registered email address'
+      validator: (val) => val.isEmpty &&
+              val !=
+                  RegExp("a-zA-Z0-9." "@a-z" ".a-z")
+                      .hasMatch(emailController.text)
+          ? "Should match 'abcd@efghi.com'!"
           : null,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(
-          color: white,
-          fontWeight: FontWeight.bold,
+        hintStyle: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 14,
+            letterSpacing: 1,
+            color: bGrey,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         labelText: label,
-        labelStyle: const TextStyle(
-          color: white,
-          fontWeight: FontWeight.bold,
+        labelStyle: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 14,
+            letterSpacing: 1,
+            color: bGrey,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        border: InputBorder.none,
-        prefixIcon: icon,
-        fillColor: ocean,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Color(0x00008baa),
+          ),
+        ),
+        prefixIcon: isEmail
+            ? const Icon(Icons.mail_outline_rounded, color: orange)
+            : const Icon(Icons.lock, color: orange),
+        fillColor: white,
         filled: true,
-        focusColor: dBlue,
+        focusColor: lightB,
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: const BorderSide(color: dBlue),
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: orange,
+          ),
         ),
-        enabledBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: const BorderSide(color: dBlue),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: dBlue,
+          ),
         ),
       ),
-      obscureText: pwd ? true : false,
-      keyboardType: pwd
-          ? TextInputType.text
-          : isPhone
-              ? TextInputType.phone
-              : TextInputType.emailAddress,
-      autofillHints: const [AutofillHints.email],
-      onChanged: userName
+      keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
+      onChanged: isEmail
           ? (val) {
-              userController.text = val;
+              emailController.text = val;
             }
-          : (isPhone
-              ? (val) {
-                  phoneController.text = val;
-                }
-              : (pwd
-                  ? (val) {
-                      passwordController.text = val;
-                    }
-                  : (val) {
-                      emailController.text = val;
-                    })),
+          : (val) {
+              passwordController.text = val;
+            },
+      // onSaved: (input) =>
+      //     isEmail ? authRequest.email = input : authRequest.password = input,
+      obscureText: !isEmail ? true : false,
     );
-  }
-
-  registerMe(int id, String email, password, userName, phoneNumber) async {
-    var plainText, passwordHash;
-    // var authority = _api.authority;
-    plainText = passwordController.text;
-    passwordHash = EncryptionsDecryption.encryptAES(plainText);
-    Map<dynamic, dynamic> _mappedData = {
-      "id": setID,
-      "email": emailController.text,
-      "userName": userController.text,
-      "passwordHash": passwordHash,
-      "phoneNumber": phoneController.text,
-      "isVendor": false,
-      "agreedTOC": false,
-    };
-    try {
-      setState(() {
-        loading = true;
-        HelperFunctions.saveEncryptedPassword(passwordHash);
-        // HelperFunctions.save
-      });
-      try {
-        _api
-            .registerUser(
-          setID(),
-          userName,
-          email,
-          passwordHash,
-          phoneNumber,
-        )
-            .then((response) {
-          setState(() {
-            loading = false;
-          });
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LandingPage(),
-            ),
-          );
-          // if (response.statusCode == 200) {
-          //   Navigator.pushReplacement(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => const LandingPage(),
-          //     ),
-          //   );
-          // } else {
-          //   print(response.statusCode);
-          // }
-        });
-      } catch (e) {
-        return null;
-      }
-    } catch (err) {
-      return err.toString();
-    }
   }
 }

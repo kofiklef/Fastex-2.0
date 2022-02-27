@@ -12,14 +12,14 @@ class GetSpecificFoodData extends UseCase<Landing, Params> {
   GetSpecificFoodData(this.repository);
   @override
   Future<Either<Failure, Landing>> call(Params params) async {
-    return await repository.getSpecificFoodData(params.name);
+    return await repository.getSpecificFoodData(params.id);
   }
 }
 
 class Params extends Equatable {
-  final String name;
-  const Params({@required this.name});
+  final int id;
+  const Params({@required this.id});
 
   @override
-  List<Object> get props => [name];
+  List<Object> get props => [id];
 }

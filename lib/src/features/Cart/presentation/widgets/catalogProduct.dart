@@ -2,6 +2,7 @@
 
 import 'package:fastex/core/constants/widgetFunction.dart';
 import 'package:fastex/core/shared/fastexAPI.dart';
+import 'package:fastex/core/shared/loading.dart';
 import 'package:fastex/src/features/Homepage/presentation/widgets/mini_Widgets/mainFood.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -39,7 +40,10 @@ class _CatalogProductsState extends State<CatalogProducts> {
             future: _api.fetchFoods(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == loading) {
-                return const CircularProgressIndicator.adaptive();
+                return Loading(
+                  child: const SpinKitCircle(size: 73, color: dBlue),
+                  isAsyncCall: loading,
+                );
               }
               if (snapshot.hasData) {
                 return Padding(
@@ -75,7 +79,7 @@ class _CatalogProductsState extends State<CatalogProducts> {
                                   child: !loading
                                       ? const Center(
                                           child: SpinKitFadingCircle(
-                                            color: bGrey,
+                                            color: dBlue,
                                             size: 55,
                                           ),
                                         )
@@ -116,7 +120,7 @@ class _CatalogProductsState extends State<CatalogProducts> {
               } else {
                 return const Center(
                   child: SpinKitFadingCircle(
-                    color: bGrey,
+                    color: dBlue,
                     size: 120,
                   ),
                 );

@@ -21,46 +21,22 @@ class _HomepageState extends State<Homepage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.black87,
-        appBar: AppBar(
-          // backgroundColor: Colors.deepOrangeAccent,
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
+        appBar: appBarComponent(
+          dBlue,
+          IconButton(
+            icon: const Icon(Icons.menu_outlined),
             color: white,
-            onPressed: () => ZoomDrawer.of(context).toggle(),
-            iconSize: 30.0,
+            onPressed: () {},
           ),
-          title: Text(
-            "FastEx Deliveries",
-            style: themeData.textTheme.headline2.copyWith(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              color: white,
-              letterSpacing: .75,
-              wordSpacing: 1.25,
+          "FastEx Deliveries",
+          const Icon(Icons.search, color: white),
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SearchScreen(),
             ),
           ),
-          elevation: 0.0,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.search),
-              color: Colors.white,
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SearchScreen(),
-                ),
-              ),
-              iconSize: 30.0,
-            ),
-          ],
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.food_bank_outlined, color: white)),
-              Tab(icon: Icon(Icons.delivery_dining_outlined, color: white)),
-              // Tab(icon: Icon(Icons.map_rounded, color: white)),
-            ],
-          ),
+          "Search"
         ),
         body: const TabBarView(
           children: [

@@ -69,3 +69,18 @@ class Post {
         "agreedTOC": agreedToc,
       };
 }
+
+class AuthRequest {
+  String email;
+  String password;
+
+  AuthRequest({this.email, this.password});
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> loginMap = {
+      "userName": email,
+      "password": password,
+    };
+    return loginMap;
+  }
+}

@@ -1,307 +1,388 @@
+// ignore_for_file: unrelated_type_equality_checks, missing_return, missing_required_param
+
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
+import 'package:fastex/core/shared/fastexAPI.dart';
 import 'package:fastex/core/shared/loading.dart';
+import 'package:fastex/src/features/Authentication/data/models/encryption.dart';
+import 'package:fastex/src/features/Authentication/presentation/pages/login.dart';
+import 'package:fastex/src/features/landingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-
-
-class Login extends StatefulWidget {
+class Register extends StatefulWidget {
   final Function toggleView;
-  const Login({Key key, @required this.toggleView}) : super(key: key);
+  const Register({Key key, this.toggleView}) : super(key: key);
 
   // get tokenId => AuthService();
 
   @override
-  _LoginState createState() => _LoginState(toggleView);
+  _RegisterState createState() => _RegisterState(toggleView);
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final _formkey = GlobalKey<FormState>();
-  bool loading = false;
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
-  final userNameController = TextEditingController();
-  String error = "";
+  final phoneController = TextEditingController();
 
-  _LoginState(Function toggleView);
+  final FastexAPI _api = FastexAPI();
+
+  bool loading = false;
+  bool isButtonDisabled = true;
+  String error = "";
+  bool isAPIcall = false;
+  _RegisterState(Function toggleView);
+  Map<String, dynamic> userMap;
 
   @override
   void initState() {
     super.initState();
-    //setupInteractedMessage();
+    // setButtonStatus();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    userMap;
+    // setButtonStatus();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    return SafeArea(
+      child: Loading(
+        child: uiBuild(context),
+        isAsyncCall: isAPIcall,
+        opacity: 0.75,
+      ),
+    );
+  }
+
+  Widget uiBuild(BuildContext context) {
     double screenWidth = window.physicalSize.width;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: lightB,
-          title: const Text(
-            'Registration Page',
-            style: TextStyle(
-              fontSize: 20,
-              letterSpacing: 1.25,
-              color: white,
-              fontFamily: "Montserrat",
-            ),
+        appBar: appBarComponent(
+          dBlue,
+          null,
+          "Registration Page",
+          const Icon(
+            Icons.person_outlined,
+            color: white,
           ),
-          actions: <Widget>[
-            TextButton.icon(
-              icon: const Icon(
-                Icons.person_outlined,
-                color: white,
-              ),
-              label: const Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 18,
-                  letterSpacing: .75,
-                  color: white,
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w700,
-                  //decoration: new InputDecoration( screenWidth < 500  TEXT_THEME_SMALL : TEXT_THEME_DEFAULT),
-                ),
-              ),
-              onPressed: () {
-                widget.toggleView();
-              },
-            ),
-          ],
+          () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Login()));
+          },
+          "",
         ),
-        body: loading
-            ? const Loading()
-            : Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-                child: Stack(
-                  fit: StackFit.expand,
+        body: ClipRRect(
+          child: details(screenWidth),
+        ),
+      ),
+    );
+  }
+
+  Container details(double screenWidth) {
+    final size = MediaQuery.of(context).size;
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 5,
+        vertical: 1,
+      ),
+      child: GestureDetector(
+        onTap: FocusScope.of(context).unfocus,
+        child: Stack(
+          fit: StackFit.loose,
+          children: <Widget>[
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Form(
+                key: _formkey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onChanged: () {
+                  final form = _formkey.currentState;
+                  setState(() {
+                    if (form.validate()) {
+                      isButtonDisabled = false;
+                    } else {
+                      if (emailController.text.isEmpty ||
+                          passwordController.text.isEmpty ||
+                          phoneController.text.isEmpty) {
+                        isButtonDisabled = true;
+                      }
+                    }
+                  });
+                },
+                child: Column(
                   children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Form(
-                            key: _formkey,
-                            child: Theme(
-                              data: ThemeData(
-                                brightness: Brightness.dark,
-                                primarySwatch: Colors.blue,
-                                inputDecorationTheme:
-                                    const InputDecorationTheme(
-                                  labelStyle: TextStyle(
-                                    color: dBlue,
-                                    fontSize: 20.0,
-                                  ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Text(
+                        "Create a new account!",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: dBlue,
+                            letterSpacing: 1.75,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                    addVertical(size.height * 0.025),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            buildTextFormField(
+                              "Enter Your Username",
+                              "Username",
+                              nameController,
+                              false,
+                              true,
+                              false,
+                              false,
+                            ),
+                            addVertical(size.height * 0.001),
+                            buildTextFormField(
+                              'Enter Phone Number',
+                              'Phone Number',
+                              phoneController,
+                              false,
+                              false,
+                              true,
+                              false,
+                            ),
+                            addVertical(size.height * 0.001),
+                            buildTextFormField(
+                              "Enter A valid Email Address",
+                              "Email",
+                              emailController,
+                              true,
+                              false,
+                              false,
+                              false,
+                            ),
+                            addVertical(size.height * 0.001),
+                            buildTextFormField(
+                              'Enter password',
+                              'Password',
+                              passwordController,
+                              false,
+                              false,
+                              false,
+                              true,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 20.0),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.07,
+                              width: size.width,
+                              child: registerButton(),
+                            ),
+                            addVertical(size.height * 0.015),
+                            Text(
+                              error,
+                              style: GoogleFonts.lato(
+                                textStyle: TextStyle(
+                                  color: Colors.red[500],
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                textTheme:
-                                    screenWidth < 500 ? smallScreen : bigScreen,
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "Welcome To\n FastEx Deliveries",
-                                    style: GoogleFonts.mcLaren(
-                                      textStyle: const TextStyle(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.bold,
-                                        color: lightB,
-                                        letterSpacing: 1.75,
-                                        fontStyle: FontStyle.normal,
-                                      ),
-                                    ),
-                                  ),
-                                  addVertical(10),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 50.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        buildTextFormField(
-                                            const Icon(Icons.person),
-                                            "Enter a valid username",
-                                            "Username",
-                                            false,
-                                            true),
-                                        addVertical(10),
-                                        buildTextFormField(
-                                            const Icon(Icons.email),
-                                            "Enter a valid email",
-                                            "Email",
-                                            false,
-                                            false),
-                                        addVertical(10),
-                                        buildTextFormField(
-                                            const Icon(Icons.lock),
-                                            "Enter your password",
-                                            "Password",
-                                            true,
-                                            false),
-                                        const Padding(
-                                          padding: EdgeInsets.only(top: 20.0),
-                                        ),
-                                        addVertical(10),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            //! Signup button
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                'Login',
-                                                style: GoogleFonts.mcLaren(
-                                                  textStyle: const TextStyle(
-                                                    letterSpacing: 2.2,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                widget.toggleView();
-                                              },
-                                            ),
-                                            //! Login button
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                'Login',
-                                                style: GoogleFonts.mcLaren(
-                                                  textStyle: const TextStyle(
-                                                    letterSpacing: 2.2,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                              onPressed: () async {
-                                                if (_formkey.currentState
-                                                    .validate()) {
-                                                  setState(
-                                                      () => loading = true);
-                                                  // dynamic result =
-                                                  //     await _auth.signup(
-                                                  //         emailController.text
-                                                  //             .trim(),
-                                                  //         passwordController
-                                                  //             .text
-                                                  //             .trim());
-
-                                                  // Map<String, String> userMap =
-                                                  //     {
-                                                  //   'userName':
-                                                  //       userNameController.text
-                                                  //           .trim(),
-                                                  //   'email': emailController
-                                                  //       .text
-                                                  //       .trim(),
-                                                  //   'password':
-                                                  //       passwordController.text
-                                                  //           .trim()
-                                                  // };
-
-                                                  // _database
-                                                  //     .uploadUserInfo(userMap);
-                                                  // if (result == null) {
-                                                  //   loading = false;
-                                                  //   error =
-                                                  //       "An unknown error ...  Please login";
-                                                  // } else {
-                                                  //   // Toast
-                                                  // }
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        addVertical(15),
-                                        Text(
-                                          error,
-                                          style: GoogleFonts.mcLaren(
-                                            textStyle: TextStyle(
-                                              color: Colors.red[500],
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
+            ]),
+          ],
+        ),
       ),
     );
   }
 
-  TextFormField buildTextFormField(
-      Widget icon, String hint, String label, bool pwd, bool userName) {
-    // ignore: unnecessary_new
-    return TextFormField(
-      validator: (val) => val.isEmpty
-          ? 'Create an account using a registered email address'
-          : null,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(
-          color: white,
-          fontWeight: FontWeight.bold,
-        ),
-        labelText: label,
-        labelStyle: const TextStyle(
-          color: white,
-          fontWeight: FontWeight.bold,
-        ),
-        border: InputBorder.none,
-        prefixIcon: icon,
-        fillColor: ocean,
-        filled: true,
-        focusColor: dBlue,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: const BorderSide(color: dBlue),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: const BorderSide(color: dBlue),
+  ElevatedButton registerButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: isButtonDisabled ? bGrey : dBlue,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
         ),
       ),
-      obscureText: pwd ? true : false,
-      keyboardType: pwd ? TextInputType.text : TextInputType.emailAddress,
-      autofillHints: const [AutofillHints.email],
-      onChanged: pwd
-          ? (val) {
-              passwordController.text = val;
-            }
-          : userName
-              ? (value) {
-                  userNameController.text = value;
-                }
-              : (val) {
-                  emailController.text = val;
-                },
+      child: Text(
+        'Register',
+        style: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 22,
+            letterSpacing: 2.2,
+            color: white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      onPressed: isButtonDisabled ? null : onButtonPressed,
+    );
+  }
+
+  void onButtonPressed() async {
+    // signIn();
+    if (validateAndSave()) {
+      setState(() {
+        isAPIcall = true;
+      });
+      var plainText = passwordController.text;
+      dynamic encrypted = EncryptionsDecryption.encryptAES(plainText);
+      Map<String, dynamic> userMap = {
+        "id": null,
+        "firstName": "",
+        "middleName": "",
+        "lastName": "",
+        "userName": nameController.text,
+        "email": emailController.text,
+        "passwordHash": encrypted.toString(),
+        "phoneNumber": phoneController.text,
+        "isVendor": false,
+        "agreedTOC": false
+      };
+      var authority = "fastexapi.azurewebsites.net";
+      var response =
+          await _api.authData(userMap, "$authority/api/Users/AddUser");
+      var boddy = json.decode(response.body);
+      if (boddy['message'] == "Success") {
+        SharedPreferences localStorage = await SharedPreferences.getInstance();
+        localStorage.setString('token', json.encode(boddy['token']));
+        localStorage.setString('name', json.encode(boddy['name']));
+      }
+      setState(() {
+        isAPIcall = false;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LandingPage(),
+          ),
+        );
+      });
+      showTopSnackBar(
+        context,
+        CustomSnackBar.success(
+          message: "Account created for: ${emailController.text}",
+        ),
+      );
+    }
+  }
+
+  bool validateAndSave() {
+    final form = _formkey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  SizedBox buildTextFormField(
+      String hint,
+      label,
+      TextEditingController controller,
+      bool isEmail,
+      bool isUser,
+      bool phone,
+      bool pwd) {
+    final size = MediaQuery.of(context).size;
+    return SizedBox(
+      height: size.height * 0.09,
+      child: TextFormField(
+        validator: (val) => val.isEmpty
+            ? (isEmail
+                ? 'Create an account using a registered address'
+                : (phone ? "Format must match 020 xxxxxxx" : null))
+            : null,
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: GoogleFonts.lato(
+            textStyle: const TextStyle(
+              fontSize: 12,
+              letterSpacing: 1,
+              color: bGrey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          labelText: label,
+          labelStyle: GoogleFonts.lato(
+            textStyle: const TextStyle(
+              fontSize: 14,
+              letterSpacing: 1,
+              color: bGrey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(
+              color: Color(0x00008baa),
+            ),
+          ),
+          prefixIcon: isEmail
+              ? const Icon(Icons.mail_outline_rounded, color: Colors.orange)
+              : (phone
+                  ? const Icon(Icons.phone, color: Colors.orange)
+                  : (isUser
+                      ? const Icon(Icons.person, color: Colors.orange)
+                      : const Icon(Icons.lock, color: Colors.orange))),
+          fillColor: white,
+          filled: true,
+          focusColor: lightB,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(
+              color: Colors.orange,
+              // width: 20
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(
+              color: dBlue,
+            ),
+          ),
+        ),
+        keyboardType: phone ? TextInputType.phone : TextInputType.emailAddress,
+        // on÷
+        onChanged: isEmail
+            ? (val) {
+                val = emailController.text;
+              }
+            : (isUser
+                ? (val) {
+                    val = nameController.text;
+                  }
+                : (!phone
+                    ? (val) {
+                        val = passwordController.text;
+                      }
+                    : (val) {
+                        val = phoneController.text;
+                      })),
+        obscureText: pwd ? true : false,
+      ),
     );
   }
 }

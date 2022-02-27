@@ -5,8 +5,7 @@ import 'package:fastex/src/features/Homepage/domain/repos/landing_repo.dart';
 
 class LandingRepositoryImpl implements LandingRepository {
   @override
-  Future<Either<Failure, Landing>> getSpecificFoodData(String name) {
-    // TODO: implement getConcreteNumberTrivia
+  Future<Either<Failure, Landing>> getSpecificFoodData(int id) {
     return null;
   }
 

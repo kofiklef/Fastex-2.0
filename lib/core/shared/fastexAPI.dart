@@ -8,10 +8,13 @@ import 'package:fastex/src/features/Authentication/data/models/authModels.dart';
 import 'package:fastex/src/features/Cart/models/productModel.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FastexAPI {
   var authority = "fastexapi.azurewebsites.net";
-  int index;
+  // int index;
+
+  var token;
 
   Future<List<Product>> fetchFoods() async {
     final url = Uri.https(authority, "/api/Products/GetAllProducts");
@@ -20,7 +23,7 @@ class FastexAPI {
   }
 
   getSpecificFood(int index) async {
-   var httpClient = HttpClient();
+    var httpClient = HttpClient();
     await Future.delayed(const Duration(milliseconds: 500));
     final url = Uri.https(authority, "/api/Products/GetProducts/$index");
     var request = await httpClient.getUrl(url);
@@ -45,7 +48,6 @@ class FastexAPI {
     try {
       final response = await http.post(
         url,
-        // Uri.parse("$authority/api/Users/Adduser"),
         body: mappedData,
         encoding: Encoding.getByName("utf-8"),
       );
@@ -59,13 +61,44 @@ class FastexAPI {
     }
   }
 
-  login(String email, String password) async {
+  login(authRequest) async {
     try {
       final url = Uri.http(authority, "/api/Users/AddUser");
       final response = await http.post(url);
       return postFromJson(response.body);
     } catch (err) {
-      Get.snackbar("", err.toString());
+      // Get.snackbar("", err.toString());
+      return null;
     }
   }
+
+  /// New methods
+  ///
+
+  _getToken() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    token = jsonDecode(localStorage.getString('token'))['token'];
+  }
+
+  authData(Map<String, dynamic> data, apiUrl) async {
+    var unencodedPath = "/api/Users/AddUser";
+    Uri fullUrl = Uri.http(authority, unencodedPath);
+    return await http.post(
+      fullUrl,
+      body: jsonEncode(data),
+      headers: _setHeaders(),
+    );
+  }
+
+  getData(apiUrl) async {
+    Uri fullUrl = (authority + apiUrl) as Uri;
+    await _getToken();
+    return await http.get(fullUrl, headers: _setHeaders());
+  }
+
+  _setHeaders() => {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
 }

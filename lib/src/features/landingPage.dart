@@ -52,9 +52,9 @@ class _LandingPageState extends State<LandingPage> {
   Widget getPages() {
     switch (currentItem) {
       case MenuItems.logout:
-        return ElevatedButton(
+        return const ElevatedButton(
           // onPressed: () => _auth.logout(),
-          child: const Text("Logout"),
+          child: Text("Logout"),
         );
 
       case MenuItems.profile:

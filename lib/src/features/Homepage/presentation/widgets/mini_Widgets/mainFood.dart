@@ -2,7 +2,6 @@
 
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
-import 'package:fastex/core/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class MainFood extends StatefulWidget {
@@ -12,7 +11,6 @@ class MainFood extends StatefulWidget {
     @required this.description,
     @required this.name,
   }) : super(key: key);
-
   final String description, image, name;
 
   @override
@@ -43,19 +41,21 @@ class _MainFoodState extends State<MainFood> {
           ),
           body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                PictureContainer(size),
-                addVertical(size.height * 0.015),
-                Description_Vendor(themeData, size),
-                addVertical(size.height * 0.01),
-                Text(
-                  "Dealers In: ",
-                  style: themeData.textTheme.headline5,
-                ),
-                DealersIn(themeData, size),
-              ],
+            child: Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  PictureContainer(size),
+                  addVertical(size.height * 0.015),
+                  Description_Vendor(themeData, size),
+                  addVertical(size.height * 0.01),
+                  Text(
+                    "Dealers In: ",
+                    style: themeData.textTheme.headline5,
+                  ),
+                  DealersIn(themeData, size),
+                ],
+              ),
             ),
           ),
         );
@@ -184,13 +184,27 @@ class _MainFoodState extends State<MainFood> {
         color: transparent,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: Center(
-        child: !loading
-            ? const Center(child: Loading())
-            : Image.asset(
-                "assets/images/beans.jpeg",
-                fit: BoxFit.fitWidth,
+      child: Stack(
+        children: [
+          Center(
+            child: Image.asset(
+              "assets/images/beans.jpeg",
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: IconButton(
+                iconSize: 28,
+                color: bGrey,
+                icon: const Icon(Icons.shopping_cart),
+                onPressed: () {},
               ),
+            ),
+          ),
+        ],
       ),
     );
   }

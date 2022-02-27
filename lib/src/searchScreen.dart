@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fastex/core/constants/constants.dart';
 import 'package:fastex/core/constants/helperFunctions.dart';
 import 'package:fastex/core/constants/widgetFunction.dart';
@@ -97,25 +96,21 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
-  QuerySnapshot searchSnapshot = FirebaseFirestore.instance
-      .collection("Food")
-      .where("foodName") as QuerySnapshot<Object>;
+  // QuerySnapshot searchSnapshot = FirebaseFirestore.instance
+  //     .collection("Food")
+  //     .where("foodName") as QuerySnapshot<Object>;
 
-  // initiateSearch() {
-  //   _database
-  //       .getFoodByName(searchUsernameController.text)
-  //       .then((val) => {searchSnapshot = val});
   // }
 
   Widget searchList() {
-    return searchUsernameController.text == null ?
-         ListView.builder(
-            itemCount: searchSnapshot.docs.length,
+    return searchUsernameController.text == null
+        ? ListView.builder(
+            // itemCount: searchSnapshot.docs.length,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return searchTile(
-                day: searchSnapshot.docs[index].get("email"),
-                foodName: searchSnapshot.docs[index].get("name"),
+                // day: searchSnapshot.docs[index].get("email"),
+                // foodName: searchSnapshot.docs[index].get("name"),
                 context: context,
               );
             },
