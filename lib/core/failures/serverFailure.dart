@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class ServerFailure  {
 
   // Use something like "int code;" if you want to translate error messages

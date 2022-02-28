@@ -3,8 +3,6 @@
 // ignore_for_file: missing_required_param
 
 import 'package:fastex/core/shared/human.dart';
-import 'package:fastex/src/features/Authentication/presentation/pages/login.dart';
-import 'package:fastex/src/features/Authentication/presentation/pages/register.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

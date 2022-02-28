@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields, annotate_overrides
+
 import 'package:fastex/src/features/Homepage/domain/entities/landing.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ class LandingModel extends Landing {
           price: price,
           extraData: extraData,
         );
+
   final String name, extraData;
   final int price;
   dynamic image;

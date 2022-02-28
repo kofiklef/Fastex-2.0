@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, unused_element
+
 import 'package:fastex/core/failures/serverFailure.dart';
 import 'package:fastex/core/shared/fastexAPI.dart';
 import 'package:fastex/src/features/Authentication/data/models/authModels.dart';

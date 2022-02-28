@@ -1,4 +1,4 @@
-// ignore_for_file: unrelated_type_equality_checks
+// ignore_for_file: unrelated_type_equality_checks, file_names, prefer_typing_uninitialized_variables
 
 import 'dart:convert';
 import 'dart:io';
@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:fastex/core/failures/serverFailure.dart';
 import 'package:fastex/src/features/Authentication/data/models/authModels.dart';
 import 'package:fastex/src/features/Cart/models/productModel.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

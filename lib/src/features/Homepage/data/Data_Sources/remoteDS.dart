@@ -1,6 +1,8 @@
+// ignore_for_file: file_names
+
 import 'package:fastex/src/features/Homepage/data/models/LandingModels.dart';
 
-abstract class RemoteDataSource {
+abstract class LandingRemoteDataSource {
   /// Calls the http://fastexapi.azurewebsites.net/api/Products/GetProduct/{id} endpoint.
   ///
   /// Throws a [ServerException] for all error codes.
