@@ -1,6 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
 import 'package:fastex/core/errors/exceptions.dart';
 import 'package:fastex/src/features/Homepage/data/Data_Sources/localDS.dart';
 import 'package:fastex/src/features/Homepage/data/models/LandingModels.dart';
@@ -77,3 +78,6 @@ void main() {
     );
   });
 }
+
+// call() {
+// }

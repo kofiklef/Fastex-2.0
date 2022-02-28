@@ -31,6 +31,7 @@ class LandingLocalDataSourceImpl implements LandingLocalDataSource {
       return Future.value(LandingModel.fromJson(jsonDecode(jsonString)));
     } else {
       throw CacheException();
+      // return null;
     }
   }
 

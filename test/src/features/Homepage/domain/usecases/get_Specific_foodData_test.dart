@@ -31,9 +31,9 @@ void main() {
     () async {
       when(mockLandingRepository.getSpecificFoodData(any))
           .thenAnswer((_) async => const Right(testLanding));
-      final result = await usecase(const Params(id: testID));
+      final result = await usecase(const Params(name: testName));
       expect(result, const Right(testLanding));
-      verify(mockLandingRepository.getSpecificFoodData(testID));
+      verify(mockLandingRepository.getSpecificFoodData(testName));
       verifyNoMoreInteractions(mockLandingRepository);
     },
   );

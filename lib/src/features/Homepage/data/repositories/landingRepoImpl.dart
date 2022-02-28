@@ -24,9 +24,9 @@ class LandingRepositoryImpl implements LandingRepository {
   });
 
   @override
-  Future<Either<Failure, Landing>> getSpecificFoodData(int id) async {
+  Future<Either<Failure, Landing>> getSpecificFoodData(String name) async {
     return await _getFood(() {
-      return remoteDataSource.getSpecificFoodData(id);
+      return remoteDataSource.getSpecificFoodData(name);
     });
   }
 

@@ -70,7 +70,10 @@ class _LoginState extends State<Login> {
           null,
           "Login Page",
           const Icon(Icons.person, color: white),
-          () {},
+          () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Register()));
+          },
           "",
         ),
         body: ClipRRect(

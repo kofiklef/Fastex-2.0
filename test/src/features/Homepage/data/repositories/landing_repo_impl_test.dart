@@ -55,7 +55,7 @@ void main() {
 
   group("getSpecificFoodData", () {
     const testNumber = 1;
-    const testName = "Fufu";
+    const testName = "testName";
     final testLandingModel = LandingModel(
         name: testName, extraData: 'test trivia', price: testNumber, image: "");
     final Landing testLanding = testLandingModel;
@@ -64,12 +64,12 @@ void main() {
         'should return remote data when the call to remote data source is successful',
         () async {
           // arange
-          when(mockRemoteDataSource.getSpecificFoodData(testNumber))
+          when(mockRemoteDataSource.getSpecificFoodData(testName))
               .thenAnswer((_) async => testLandingModel);
           // act
-          final result = await repository.getSpecificFoodData(testNumber);
+          final result = await repository.getSpecificFoodData(testName);
           // assert
-          verify(mockRemoteDataSource.getSpecificFoodData(testNumber));
+          verify(mockRemoteDataSource.getSpecificFoodData(testName));
           expect(result, equals(Right(testLanding)));
         },
       );
@@ -78,12 +78,12 @@ void main() {
         'should return [ServerFailure] when the call to remote data source is unsuccessful',
         () async {
           // arange
-          when(mockRemoteDataSource.getSpecificFoodData(testNumber))
+          when(mockRemoteDataSource.getSpecificFoodData(testName))
               .thenThrow(ServerException());
           // act
-          final result = await repository.getSpecificFoodData(testNumber);
+          final result = await repository.getSpecificFoodData(testName);
           // assert
-          verify(mockRemoteDataSource.getSpecificFoodData(testNumber));
+          verify(mockRemoteDataSource.getSpecificFoodData(testName));
           verifyZeroInteractions(mockLocalDataSource);
           expect(result, equals(Left(ServerFailure())));
         },
@@ -98,7 +98,7 @@ void main() {
           when(mockLocalDataSource.getLastFoodData())
               .thenAnswer((_) async => testLandingModel);
           // act
-          final result = await repository.getSpecificFoodData(testNumber);
+          final result = await repository.getSpecificFoodData(testName);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
           verify(mockLocalDataSource.getLastFoodData());
@@ -113,7 +113,7 @@ void main() {
           when(mockLocalDataSource.getLastFoodData())
               .thenThrow(CacheException());
           // act
-          final result = await repository.getSpecificFoodData(testNumber);
+          final result = await repository.getSpecificFoodData(testName);
           // assert
           verify(mockLocalDataSource.getLastFoodData());
           verifyNoMoreInteractions(mockLocalDataSource);
@@ -125,7 +125,7 @@ void main() {
 
   group('getAllFoodData', () {
     const testNumber = 1;
-    const testName = "Fufu";
+    const testName = "testName";
     final testLandingModel = LandingModel(
         name: testName, extraData: 'test trivia', price: testNumber, image: "");
     final Landing testLanding = testLandingModel;
