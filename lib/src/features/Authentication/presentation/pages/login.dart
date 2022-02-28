@@ -10,6 +10,7 @@ import 'package:fastex/src/features/landingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/tap_bounce_container.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class Login extends StatefulWidget {
@@ -150,7 +151,6 @@ class _LoginState extends State<Login> {
                               height: size.height * 0.07,
                               width: size.width,
                               child: loginButton(
-                                context,
                                 "Login",
                                 isDisabled
                                     ? null
@@ -175,11 +175,19 @@ class _LoginState extends State<Login> {
                                                       ),
                                                     )
                                                   });
-                                          showTopSnackBar(
-                                            context,
-                                            const CustomSnackBar.success(
-                                              message:
-                                                  "You have sucessfully logged into your account!",
+                                          TapBounceContainer(
+                                            onTap: () {
+                                              showTopSnackBar(
+                                                context,
+                                                CustomSnackBar.success(
+                                                  message:
+                                                      "Account created for: ${emailController.text}",
+                                                ),
+                                              );
+                                            },
+                                            child: loginButton(
+                                              "OK",
+                                              () {},
                                             ),
                                           );
                                           print(authRequest.toJson());
@@ -218,7 +226,6 @@ class _LoginState extends State<Login> {
                           height: size.height * 0.07,
                           width: size.width,
                           child: loginButton(
-                            context,
                             "Register",
                             () {
                               Navigator.push(
@@ -242,8 +249,8 @@ class _LoginState extends State<Login> {
     );
   }
 
-  ElevatedButton loginButton(
-      BuildContext context, String text, Function function) {
+  ElevatedButton loginButton(String text, Function function,
+      {BuildContext context}) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: dBlue,

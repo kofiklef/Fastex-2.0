@@ -3,7 +3,7 @@ import 'package:encrypt/encrypt.dart';
 
 class EncryptionsDecryption {
   static final key = Key.fromLength(32);
-  static final iv = IV.fromLength(16);
+  static final iv = IV.fromLength(12);
   static final encrypter = Encrypter(AES(key));
 
   static encryptAES(String text) {

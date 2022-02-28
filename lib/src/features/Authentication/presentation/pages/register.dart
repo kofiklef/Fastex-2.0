@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/tap_bounce_container.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class Register extends StatefulWidget {
@@ -192,7 +193,7 @@ class _RegisterState extends State<Register> {
                             SizedBox(
                               height: size.height * 0.07,
                               width: size.width,
-                              child: registerButton(),
+                              child: registerButton("Register"),
                             ),
                             addVertical(size.height * 0.015),
                             Text(
@@ -218,7 +219,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  ElevatedButton registerButton() {
+  ElevatedButton registerButton(String buttonName, {BuildContext context}) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: isButtonDisabled ? bGrey : dBlue,
@@ -227,7 +228,7 @@ class _RegisterState extends State<Register> {
         ),
       ),
       child: Text(
-        'Register',
+        buttonName,
         style: GoogleFonts.lato(
           textStyle: const TextStyle(
             fontSize: 22,
@@ -248,7 +249,7 @@ class _RegisterState extends State<Register> {
         isAPIcall = true;
       });
       var plainText = passwordController.text;
-      dynamic encrypted = EncryptionsDecryption.encryptAES(plainText);
+      String encrypted = EncryptionsDecryption.encryptAES(plainText);
       Map<String, dynamic> userMap = {
         "id": null,
         "firstName": "",
@@ -256,12 +257,12 @@ class _RegisterState extends State<Register> {
         "lastName": "",
         "userName": nameController.text,
         "email": emailController.text,
-        "passwordHash": encrypted.toString(),
+        "passwordHash": encrypted,
         "phoneNumber": phoneController.text,
         "isVendor": false,
         "agreedTOC": false
       };
-      var authority = "fastexapi.azurewebsites.net";
+      const authority = "fastexapi.azurewebsites.net";
       var response =
           await _api.authData(userMap, "$authority/api/Users/AddUser");
       var boddy = json.decode(response.body);
@@ -279,11 +280,16 @@ class _RegisterState extends State<Register> {
           ),
         );
       });
-      showTopSnackBar(
-        context,
-        CustomSnackBar.success(
-          message: "Account created for: ${emailController.text}",
-        ),
+      TapBounceContainer(
+        onTap: () {
+          showTopSnackBar(
+            context,
+            CustomSnackBar.success(
+              message: "Account created for: ${emailController.text}",
+            ),
+          );
+        },
+        child: registerButton("OK"),
       );
     }
   }
